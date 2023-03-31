@@ -7,13 +7,9 @@ using System.Threading.Tasks;
 
 namespace Furniking.DAL.Entities
 {
-    public class User : IdentityUser
+    public class User : IdentityUser<int>, IBaseEntity
     {
-
-
-        public virtual IList<Order> Orders { get; set; }
-        public virtual IList<Review> Reviews { get; set; }
-        
-        
+        public virtual ICollection<Order> Orders { get; set; }
+        public virtual ICollection<Review> Reviews { get; set; }
     }
 }

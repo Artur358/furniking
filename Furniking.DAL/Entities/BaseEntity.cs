@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 
 namespace Furniking.DAL.Entities
 {
-    public class Category : BaseEntity
+    public interface IBaseEntity
     {
-        public string Name { get; set; }
-
-        public virtual ICollection<Furniture> Furnitures { get; set; }
+        int Id { get; set; }
+    }
+    public class BaseEntity : IBaseEntity
+    {
+        public int Id { get; set; }
     }
 }

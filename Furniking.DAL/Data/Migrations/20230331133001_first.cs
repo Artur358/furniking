@@ -15,7 +15,8 @@ namespace Furniking.DAL.Data.Migrations
                 name: "AspNetRoles",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -29,7 +30,8 @@ namespace Furniking.DAL.Data.Migrations
                 name: "AspNetUsers",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -51,7 +53,7 @@ namespace Furniking.DAL.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Category",
+                name: "Categories",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -60,7 +62,7 @@ namespace Furniking.DAL.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Category", x => x.Id);
+                    table.PrimaryKey("PK_Categories", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -69,7 +71,7 @@ namespace Furniking.DAL.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    RoleId = table.Column<int>(type: "int", nullable: false),
                     ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
@@ -90,7 +92,7 @@ namespace Furniking.DAL.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false),
                     ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
@@ -112,7 +114,7 @@ namespace Furniking.DAL.Data.Migrations
                     LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ProviderKey = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ProviderDisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    UserId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -129,8 +131,8 @@ namespace Furniking.DAL.Data.Migrations
                 name: "AspNetUserRoles",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    RoleId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -153,7 +155,7 @@ namespace Furniking.DAL.Data.Migrations
                 name: "AspNetUserTokens",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false),
                     LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Value = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -170,7 +172,7 @@ namespace Furniking.DAL.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Furniture",
+                name: "Furnitures",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -182,17 +184,17 @@ namespace Furniking.DAL.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Furniture", x => x.Id);
+                    table.PrimaryKey("PK_Furnitures", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Furniture_Category_CategoryId",
+                        name: "FK_Furnitures_Categories_CategoryId",
                         column: x => x.CategoryId,
-                        principalTable: "Category",
+                        principalTable: "Categories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Image",
+                name: "Images",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -200,21 +202,20 @@ namespace Furniking.DAL.Data.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Extension = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Data = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
-                    FurnitureId = table.Column<int>(type: "int", nullable: false)
+                    FurnitureId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Image", x => x.Id);
+                    table.PrimaryKey("PK_Images", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Image_Furniture_FurnitureId",
+                        name: "FK_Images_Furnitures_FurnitureId",
                         column: x => x.FurnitureId,
-                        principalTable: "Furniture",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalTable: "Furnitures",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "Order",
+                name: "Orders",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -222,27 +223,27 @@ namespace Furniking.DAL.Data.Migrations
                     date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Count = table.Column<int>(type: "int", nullable: false),
                     FurnitureId = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    UserId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Order", x => x.Id);
+                    table.PrimaryKey("PK_Orders", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Order_AspNetUsers_UserId",
+                        name: "FK_Orders_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Order_Furniture_FurnitureId",
+                        name: "FK_Orders_Furnitures_FurnitureId",
                         column: x => x.FurnitureId,
-                        principalTable: "Furniture",
+                        principalTable: "Furnitures",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Review",
+                name: "Reviews",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -250,22 +251,22 @@ namespace Furniking.DAL.Data.Migrations
                     Evaluation = table.Column<int>(type: "int", nullable: false),
                     Comment = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false),
                     FurnitureId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Review", x => x.Id);
+                    table.PrimaryKey("PK_Reviews", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Review_AspNetUsers_UserId",
+                        name: "FK_Reviews_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Review_Furniture_FurnitureId",
+                        name: "FK_Reviews_Furnitures_FurnitureId",
                         column: x => x.FurnitureId,
-                        principalTable: "Furniture",
+                        principalTable: "Furnitures",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -310,33 +311,33 @@ namespace Furniking.DAL.Data.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Furniture_CategoryId",
-                table: "Furniture",
+                name: "IX_Furnitures_CategoryId",
+                table: "Furnitures",
                 column: "CategoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Image_FurnitureId",
-                table: "Image",
+                name: "IX_Images_FurnitureId",
+                table: "Images",
                 column: "FurnitureId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Order_FurnitureId",
-                table: "Order",
+                name: "IX_Orders_FurnitureId",
+                table: "Orders",
                 column: "FurnitureId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Order_UserId",
-                table: "Order",
+                name: "IX_Orders_UserId",
+                table: "Orders",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Review_FurnitureId",
-                table: "Review",
+                name: "IX_Reviews_FurnitureId",
+                table: "Reviews",
                 column: "FurnitureId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Review_UserId",
-                table: "Review",
+                name: "IX_Reviews_UserId",
+                table: "Reviews",
                 column: "UserId");
         }
 
@@ -359,13 +360,13 @@ namespace Furniking.DAL.Data.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Image");
+                name: "Images");
 
             migrationBuilder.DropTable(
-                name: "Order");
+                name: "Orders");
 
             migrationBuilder.DropTable(
-                name: "Review");
+                name: "Reviews");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
@@ -374,10 +375,10 @@ namespace Furniking.DAL.Data.Migrations
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "Furniture");
+                name: "Furnitures");
 
             migrationBuilder.DropTable(
-                name: "Category");
+                name: "Categories");
         }
     }
 }
