@@ -8,22 +8,22 @@ using System.Threading.Tasks;
 
 namespace Furniking.DAL.Entities
 {
-    public class Review
+    public class Review : BaseEntity
     {
-        public int Id { get; set; }
+        
         // 1-5
         public int Evaluation { get; set; }
         public string Comment { get; set; }
         public DateTime DateTime { get; set; }
 
 
-        public string UserId { get; set; }
-        public User User { get; set; }
+        public int UserId { get; set; }
+        public virtual User User { get; set; }
 
 
 
         public int FurnitureId { get; set; }
-        public Furniture Furniture { get; set; }
+        public virtual Furniture Furniture { get; set; }
 
         
 

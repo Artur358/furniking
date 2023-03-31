@@ -7,13 +7,12 @@ using System.Threading.Tasks;
 
 namespace Furniking.DAL.Entities
 {
-    public class Image
+    public class Image : BaseEntity
     {
-        public int Id { get; set; } 
         public string Name { get; set; }
         public string Extension { get; set; }
         public byte[] Data { get; set; }
 
-        public virtual Furniture Furniture { get; set; }
+        //public virtual Furniture Furniture { get; set; }
     }
 }

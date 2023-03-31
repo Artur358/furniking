@@ -1,23 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Furniking.DAL.Entities
+﻿namespace Furniking.DAL.Entities
 {
-    public class Furniture
+    public class Furniture : BaseEntity
     {
-        public int Id { get; set; } 
         public string Name { get; set; }
         public string Description { get; set; }
         public decimal Price { get; set; }
-        public IList<Image> Images { get; set; }
+        public virtual ICollection<Image> Images { get; set; }
 
         public int CategoryId { get; set; }
         public virtual Category Category { get; set; }
 
-        
+        public virtual ICollection<Review> Reviews { get; set; }
 
         // ... 
 

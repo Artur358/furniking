@@ -1,5 +1,9 @@
 
 using Furniking.DAL.Data;
+using Furniking.DAL.Data.Helpers;
+using Furniking.DAL.Entities;
+using Furniking.DAL.Repositories.Implementations;
+using Furniking.DAL.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Furniking
@@ -13,8 +17,17 @@ namespace Furniking
 
             builder.Services.AddDbContext<DataContext>(op =>
             {
-                op.UseSqlServer(builder.Configuration.GetConnectionString("devDB"));
+                op
+                .UseLazyLoadingProxies()
+                .UseSqlServer(builder.Configuration.GetConnectionString("devDB"));
             });
+
+            var db = builder.Services.BuildServiceProvider().GetService<DataContext>();
+            db.LoadFakeData();
+
+
+            builder.Services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
+            
 
             // Add services to the container.
             builder.Services.AddControllers();
@@ -23,7 +36,7 @@ namespace Furniking
             builder.Services.AddSwaggerGen();
 
             var app = builder.Build();
-
+            
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
