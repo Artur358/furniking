@@ -1,6 +1,4 @@
-﻿using Furniking.DAL.Data;
-using Furniking.DAL.Entities;
-using Furniking.DAL.Repositories.Interfaces;
+﻿using Furniking.BLL.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Furniking.Controllers
@@ -9,20 +7,17 @@ namespace Furniking.Controllers
     [ApiController]
     public class CategoryController : ControllerBase
     {
-        private readonly IRepository<Category> repository;
+        private readonly ICategoryService _categoryService;
 
-        public CategoryController(IRepository<Category> repository)  
+        public CategoryController(ICategoryService service)
         {
-            this.repository = repository;
+            _categoryService = service;
         }
 
-
-        [HttpGet]
-        public async Task<IActionResult> GetAction(int id)
+        [HttpGet("/Categories")]
+        public async Task<IActionResult> GetAllCategories()
         {
-            var res = await repository.GetByIdAsync(id);
-            return Ok(res.Name);
+            return Ok(await _categoryService.GetAllCategoryAsync());
         }
-
     }
 }

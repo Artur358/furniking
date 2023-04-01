@@ -1,7 +1,6 @@
-
+using Furniking.BLL.AutoMapper.Profiles;
 using Furniking.DAL.Data;
 using Furniking.DAL.Data.Helpers;
-using Furniking.DAL.Entities;
 using Furniking.DAL.Repositories.Implementations;
 using Furniking.DAL.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -22,12 +21,13 @@ namespace Furniking
                 .UseSqlServer(builder.Configuration.GetConnectionString("devDB"));
             });
 
-            var db = builder.Services.BuildServiceProvider().GetService<DataContext>();
-            db.LoadFakeData();
+            //var db = builder.Services.BuildServiceProvider().GetService<DataContext>();
+            //db.LoadFakeData();
 
 
             builder.Services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
-            
+
+            builder.Services.AddAutoMapper(typeof(CategoryProfile));
 
             // Add services to the container.
             builder.Services.AddControllers();
