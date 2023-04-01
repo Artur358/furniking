@@ -14,6 +14,5 @@ namespace Furniking.DAL.Repositories.Interfaces
 		Task DeleteByIdAsync(int id);
 		Task UpdateAsync(T entity);
 		Task SaveChangesAsync();
-		Task DeleteObjectAsync(T entity);
 	}
 }

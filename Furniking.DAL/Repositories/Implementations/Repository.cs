@@ -46,14 +46,6 @@ namespace Furniking.DAL.Repositories.Implementations
 				await SaveChangesAsync();
 			}
 		}
-		public async Task DeleteObjectAsync(T entity)
-		{
-			if (entity != null)
-			{
-				_dbSet.Remove(entity);
-				await SaveChangesAsync();
-			}
-		}
 
 		public async Task UpdateAsync(T entity)
 		{
