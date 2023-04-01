@@ -1,4 +1,5 @@
 ﻿using Furniking.DAL.Data;
+using Furniking.DAL.Entities;
 using Furniking.DAL.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -9,40 +10,52 @@ using System.Threading.Tasks;
 
 namespace Furniking.DAL.Repositories.Implementations
 {
-    public class Repository<T> : IRepository<T> where T : class
-    {
-        private readonly DataContext _dbContext;
-        private readonly DbSet<T> _dbSet;
+	public class Repository<T> : IRepository<T> where T : class, IBaseEntity
+	{
+		private readonly DataContext _dbContext;
+		private readonly DbSet<T> _dbSet;
 
-        public Repository(DataContext dbContext)
-        {
-            _dbContext = dbContext;
-            _dbSet = _dbContext.Set<T>();
-        }
+		public Repository(DataContext dbContext)
+		{
+			_dbContext = dbContext;
+			_dbSet = _dbContext.Set<T>();
+		}
 
-        public async Task<IEnumerable<T>> GetAllAsync()
-        {
-            return await _dbSet.ToListAsync();
-        }
+		public async Task<IEnumerable<T>> GetAllAsync()
+		{
+			return await _dbSet.ToListAsync();
+		}
 
-        public async Task<T> GetByIdAsync(int id)
-        {
-            return await _dbSet.FindAsync(id);
-        }
+		public async Task<T> GetByIdAsync(int id)
+		{
+			return await _dbSet.FindAsync(id);
+		}
 
-        public async Task AddAsync(T entity)
-        {
-            await _dbSet.AddAsync(entity);
-        }
+		public async Task AddAsync(T entity)
+		{
+			await _dbSet.AddAsync(entity);
+			await SaveChangesAsync();
+		}
 
-        public void Remove(T entity)
-        {
-            _dbSet.Remove(entity);
-        }
+		public async Task DeleteByIdAsync(int id)
+		{
+			var entity = await GetByIdAsync(id);
+			if (entity != null)
+			{
+				_dbSet.Remove(entity);
+				await SaveChangesAsync();
+			}
+		}
 
-        public void Update(T entity)
-        {
-            _dbContext.Entry(entity).State = EntityState.Modified;
-        }
-    }
+		public async Task UpdateAsync(T entity)
+		{
+			_dbSet.Update(entity);
+			await SaveChangesAsync();
+		}
+
+		public async Task SaveChangesAsync()
+		{
+			await _dbContext.SaveChangesAsync();
+		}
+	}
 }
