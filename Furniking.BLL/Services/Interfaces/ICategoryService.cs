@@ -7,5 +7,6 @@ namespace Furniking.BLL.Services.Interfaces
         Task<IEnumerable<CategoryInfoDTO>> GetAllCategoryAsync();
         Task<CategoryInfoDTO?> GetByIdAsync(int id);
         Task AddAsync(AddCategoryDTO dto);
+        Task RemoveByIdAsync(int id);
     }
 }

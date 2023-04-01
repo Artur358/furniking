@@ -1,4 +1,6 @@
 using Furniking.BLL.AutoMapper.Profiles;
+using Furniking.BLL.Services.Implementations;
+using Furniking.BLL.Services.Interfaces;
 using Furniking.DAL.Data;
 using Furniking.DAL.Data.Helpers;
 using Furniking.DAL.Repositories.Implementations;
@@ -26,6 +28,9 @@ namespace Furniking
 
 
             builder.Services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
+
+            builder.Services.AddTransient<ICategoryRepository, CategoryRepository>();
+            builder.Services.AddTransient<ICategoryService, CategoryService>();
 
             builder.Services.AddAutoMapper(typeof(CategoryProfile));
 
