@@ -12,7 +12,7 @@ namespace Furniking.DAL.Repositories.Interfaces
 		Task<T> GetByIdAsync(int id);
 		Task AddAsync(T entity);
 		Task DeleteByIdAsync(int id);
-		Task UpdateAsync(T entity);
+		Task<T> UpdateAsync(T entity);
 		Task SaveChangesAsync();
 	}
 }

@@ -47,10 +47,12 @@ namespace Furniking.DAL.Repositories.Implementations
 			}
 		}
 
-		public async Task UpdateAsync(T entity)
+		public async Task<T> UpdateAsync(T entity)
 		{
 			_dbSet.Update(entity);
 			await SaveChangesAsync();
+			return entity;
+
 		}
 
 		public async Task SaveChangesAsync()
