@@ -10,8 +10,8 @@ namespace Furniking.DAL.Repositories.Interfaces
 	{
 		Task<IEnumerable<T>> GetAllAsync();
 		Task<T> GetByIdAsync(int id);
-		Task AddAsync(T entity);
-		Task DeleteByIdAsync(int id);
+		Task<T> AddAsync(T entity);
+		Task<bool> DeleteByIdAsync(int id);
 		Task<T> UpdateAsync(T entity);
 		Task SaveChangesAsync();
 	}
