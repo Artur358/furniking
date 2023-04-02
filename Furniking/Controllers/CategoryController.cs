@@ -35,15 +35,16 @@ namespace Furniking.Controllers
         [HttpPost("/Category/Add")]
         public async Task<IActionResult> Add(AddCategoryDTO dto)
         {
-            await _categoryService.AddAsync(dto);
-            return Ok();
+            // при невдалому додавані кинеться помилка DbUpdateException
+            return Ok(await _categoryService.AddAsync(dto));
         }
 
-        [HttpPost("/Category/Remove")]
+        [HttpPost("/Category/Remove/{id}")]
         public async Task<IActionResult> RemoveById(int id)
         {
-            await _categoryService.RemoveByIdAsync(id);
-            return Ok();
+            var result = await _categoryService.RemoveByIdAsync(id);
+            return result ? Ok() : BadRequest();
         }
     }
 }
+
