@@ -5,6 +5,7 @@ using Furniking.DAL.Data;
 using Furniking.DAL.Data.Helpers;
 using Furniking.DAL.Repositories.Implementations;
 using Furniking.DAL.Repositories.Interfaces;
+using Furniking.Extensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace Furniking
@@ -23,16 +24,17 @@ namespace Furniking
                 .UseSqlServer(builder.Configuration.GetConnectionString("devDB"));
             });
 
-            //var db = builder.Services.BuildServiceProvider().GetService<DataContext>();
-            //db.LoadFakeData();
-
-
+            
+            // TODO: Use IUnitOfWork
             builder.Services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
-
             builder.Services.AddTransient<ICategoryRepository, CategoryRepository>();
-            builder.Services.AddTransient<ICategoryService, CategoryService>();
+            builder.Services.AddTransient<IFurnitureRepository, FurnitureRepository>();
 
-            builder.Services.AddAutoMapper(typeof(CategoryProfile));
+            // Services
+            builder.Services.ServicesRegister();
+
+            // AutoMapper
+            builder.Services.AutoMapperProfilesRegister();
 
             // Add services to the container.
             builder.Services.AddControllers();

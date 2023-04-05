@@ -33,9 +33,9 @@ namespace Furniking.DAL.Repositories.Implementations
 
 		public async Task<T> AddAsync(T entity)
 		{
-			await _dbSet.AddAsync(entity);
+			var r = await _dbSet.AddAsync(entity);
 			await SaveChangesAsync();
-			return entity;
+			return r.Entity;
 		}
 
 		public async Task<bool> DeleteByIdAsync(int id)
