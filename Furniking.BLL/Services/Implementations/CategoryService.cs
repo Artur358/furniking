@@ -47,9 +47,12 @@ namespace Furniking.BLL.Services.Implementations
             return _mapper.Map<CategoryInfoDTO>(actual);
         }
 
-        public async Task<bool> RemoveByIdAsync(int id)
+        public async Task RemoveByIdAsync(int id)
         {
-            return await _repository.DeleteByIdAsync(id);
+            var result = await _repository.DeleteByIdAsync(id);
+            
+            if (result == false)
+                throw new IdIncorrectException();
         }
     }
 }
