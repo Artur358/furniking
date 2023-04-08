@@ -145,10 +145,16 @@ namespace Furniking.DAL.Data.Migrations
                     b.Property<DateTime>("DateTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("Evaluation")
+                    b.Property<int>("Dislikes")
                         .HasColumnType("int");
 
+                    b.Property<byte>("Evaluation")
+                        .HasColumnType("tinyint");
+
                     b.Property<int>("FurnitureId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Likes")
                         .HasColumnType("int");
 
                     b.Property<int>("UserId")

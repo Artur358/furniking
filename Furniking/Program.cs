@@ -27,10 +27,17 @@ namespace Furniking
 
             builder.Services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
 
-            builder.Services.AddAutoMapper(typeof(CategoryProfile));
+            builder.Services.AddTransient<ICategoryRepository, CategoryRepository>();
+            builder.Services.AddTransient<ICategoryService, CategoryService>();
 
-            // Add services to the container.
-            builder.Services.AddControllers();
+			builder.Services.AddTransient<IReviewRepository, ReviewRepository>();
+			builder.Services.AddTransient<IReviewService, ReviewService>();
+
+			builder.Services.AddAutoMapper(typeof(CategoryProfile));
+			builder.Services.AddAutoMapper(typeof(ReviewProfile));
+
+			// Add services to the container.
+			builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();

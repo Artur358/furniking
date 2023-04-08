@@ -12,21 +12,18 @@ namespace Furniking.DAL.Entities
     {
         
         // 1-5
-        public int Evaluation { get; set; }
+        public byte Evaluation { get; set; } 
         public string Comment { get; set; }
         public DateTime DateTime { get; set; }
+		public int Likes { get; set; } 
+        public int Dislikes { get; set; } 
 
-
-        public int UserId { get; set; }
+		public int UserId { get; set; }
         public virtual User User { get; set; }
-
 
 
         public int FurnitureId { get; set; }
         public virtual Furniture Furniture { get; set; }
-
-        
-
 
     }
 }

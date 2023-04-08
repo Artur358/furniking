@@ -2,18 +2,13 @@
 using Furniking.DAL.Entities;
 using Furniking.DAL.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Furniking.DAL.Repositories.Implementations
 {
 	public class Repository<T> : IRepository<T> where T : class, IBaseEntity
 	{
-		private readonly DataContext _dbContext;
-		private readonly DbSet<T> _dbSet;
+		protected readonly DataContext _dbContext;
+		protected readonly DbSet<T> _dbSet;
 
 		public Repository(DataContext dbContext)
 		{
