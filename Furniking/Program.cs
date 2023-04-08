@@ -1,4 +1,6 @@
 using Furniking.BLL.AutoMapper.Profiles;
+using Furniking.BLL.Services.Implementations;
+using Furniking.BLL.Services.Interfaces;
 using Furniking.DAL.Data;
 using Furniking.DAL.Data.Helpers;
 using Furniking.DAL.Repositories.Implementations;
