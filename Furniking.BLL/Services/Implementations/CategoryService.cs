@@ -17,9 +17,10 @@ namespace Furniking.BLL.Services.Implementations
             _mapper = mapper;
         }
 
-        public async Task AddAsync(AddCategoryDTO dto)
+        public async Task<CategoryInfoDTO> AddAsync(AddCategoryDTO dto)
         {
-            await _repository.AddAsync(_mapper.Map<Category>(dto));
+            var category = await _repository.AddAsync(_mapper.Map<Category>(dto));
+            return _mapper.Map<CategoryInfoDTO>(category);
         }
 
         public async Task<IEnumerable<CategoryInfoDTO>> GetAllCategoryAsync()
@@ -32,6 +33,11 @@ namespace Furniking.BLL.Services.Implementations
         {
             var category = await _repository.GetByIdAsync(id);
             return _mapper.Map<CategoryInfoDTO?>(category);
+        }
+
+        public async Task<bool> RemoveByIdAsync(int id)
+        {
+            return await _repository.DeleteByIdAsync(id);
         }
     }
 }
