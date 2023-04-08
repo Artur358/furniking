@@ -32,11 +32,11 @@ namespace Furniking
             builder.Services.AddTransient<ICategoryRepository, CategoryRepository>();
             builder.Services.AddTransient<ICategoryService, CategoryService>();
 
-			builder.Services.AddTransient<IReviewRepository, ReviewRepository>();
-			builder.Services.AddTransient<IReviewService, ReviewService>();
+			//builder.Services.AddTransient<IReviewRepository, ReviewRepository>();
+			//builder.Services.AddTransient<IReviewService, ReviewService>();
 
 			builder.Services.AddAutoMapper(typeof(CategoryProfile));
-			builder.Services.AddAutoMapper(typeof(ReviewProfile));
+			//builder.Services.AddAutoMapper(typeof(ReviewProfile));
 
 			// Add services to the container.
 			builder.Services.AddControllers();
