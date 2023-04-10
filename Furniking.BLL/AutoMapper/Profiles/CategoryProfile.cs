@@ -8,7 +8,8 @@ namespace Furniking.BLL.AutoMapper.Profiles
     {
         public CategoryProfile()
         {
-            CreateMap<Category, CategoryInfoDTO>();
+            CreateMap<Category, CategoryInfoDTO>()
+                .ReverseMap();
             CreateMap<AddCategoryDTO, Category>();
             CreateMap<EditCategoryDTO, Category>()
                 .ForMember(
