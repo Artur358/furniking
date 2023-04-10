@@ -15,35 +15,38 @@ namespace Furniking.Controllers
             _categoryService = service;
         }
 
-        [HttpGet("/Categories")]
-        public async Task<IActionResult> GetAllCategories()
+        [HttpGet("All")]
+        public async Task<IActionResult> GetAll()
         {
-            return Ok(await _categoryService.GetAllCategoryAsync());
+            return Ok(await _categoryService.GetAllAsync());
         }
 
-        [HttpGet("/Category/{id}")]
+        [HttpGet("Get/{id}")]
         public async Task<IActionResult> GetById(int id)
         {
             var category = await _categoryService.GetByIdAsync(id);
-
-            if (category == null)
-                return BadRequest();
-
             return Ok(category);
         }
 
-        [HttpPost("/Category/Add")]
+        [HttpPost("Add")]
         public async Task<IActionResult> Add(AddCategoryDTO dto)
         {
             // при невдалому додавані кинеться помилка DbUpdateException
             return Ok(await _categoryService.AddAsync(dto));
         }
 
-        [HttpPost("/Category/Remove/{id}")]
+        [HttpPut("Edit")]
+        public async Task<IActionResult> Edit(EditCategoryDTO dto)
+        {
+            // при невдалому додавані кинеться помилка DbUpdateException
+            return Ok(await _categoryService.EditAsync(dto));
+        }
+
+        [HttpDelete("Remove/{id}")]
         public async Task<IActionResult> RemoveById(int id)
         {
-            var result = await _categoryService.RemoveByIdAsync(id);
-            return result ? Ok() : BadRequest();
+            await _categoryService.RemoveByIdAsync(id);
+            return Ok();
         }
     }
 }

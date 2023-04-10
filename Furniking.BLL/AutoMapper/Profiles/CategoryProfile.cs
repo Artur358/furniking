@@ -11,6 +11,11 @@ namespace Furniking.BLL.AutoMapper.Profiles
             CreateMap<Category, CategoryInfoDTO>()
                 .ReverseMap();
             CreateMap<AddCategoryDTO, Category>();
+            CreateMap<EditCategoryDTO, Category>()
+                .ForMember(
+                    dest => dest.Name,
+                    opt => opt.MapFrom(src => src.NewName)
+                );
         }
     }
 }

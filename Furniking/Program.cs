@@ -5,7 +5,9 @@ using Furniking.DAL.Data;
 using Furniking.DAL.Data.Helpers;
 using Furniking.DAL.Repositories.Implementations;
 using Furniking.DAL.Repositories.Interfaces;
+
 using Furniking.Extensions;
+using Furniking.Extensions.Middlewares;
 using Microsoft.EntityFrameworkCore;
 
 namespace Furniking
@@ -43,7 +45,9 @@ namespace Furniking
             builder.Services.AddSwaggerGen();
 
             var app = builder.Build();
-            
+
+            app.UseCustomExceptionHandler();
+
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
