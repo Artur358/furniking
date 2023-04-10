@@ -1,6 +1,11 @@
-﻿using Furniking.BLL.DTOs.FurnitureDTOs;
+﻿using AutoMapper;
+using Furniking.BLL.DTOs.CategoryDTOs;
+using Furniking.BLL.DTOs.FurnitureDTOs;
 using Furniking.BLL.Services.Interfaces;
 using Furniking.DAL.Data;
+using Furniking.DAL.Data.Helpers;
+using Furniking.DAL.Entities;
+using Furniking.DAL.Repositories.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -12,39 +17,59 @@ namespace Furniking.Controllers
     public class FurnitureController : ControllerBase
     {
         private readonly IFurnitureService _furnitureService;
-        private readonly DataContext dataContext;
+        private readonly IFurnitureRepository furnitureRepository;
+        private readonly IMapper _mapper;
 
-        public FurnitureController(IFurnitureService furnitureService, DataContext dataContext)
+
+        public FurnitureController(IFurnitureService furnitureService, IFurnitureRepository furnitureRepository, IMapper mapper = null)
         {
             this._furnitureService = furnitureService;
-            this.dataContext = dataContext;
+            this.furnitureRepository = furnitureRepository;
+            _mapper = mapper;
         }
 
 
-        [HttpPost]
+        [HttpPost("Create")]
         public async Task<IActionResult> Create(CreateFurnitureDTO furniture)
         {
-            _ = furniture;
             var createdFurniture = await _furnitureService.CreateAsync(furniture);
             return Ok(createdFurniture);
         }
 
-
-        [HttpGet]
-        public IActionResult Test()
+        [HttpGet("Get")]
+        public async Task<IActionResult> Get(int id)
         {
-
-            dataContext.Testing();
-            //foreach (var item in dataContext.Furnitures.Include(f => f.Category) )
-            //{
-            //    _ = item;
-            //    var cat = item.Category;
-            //    _ = cat;
-            //}
-
-            return Ok();
+            var f = await _furnitureService.GetAsync(id);
+            return Ok(f);
         }
 
-        
+
+        [HttpPut("Edit")]
+        public async Task<IActionResult> Edit(FurnitureDTO furniture)
+        {
+            var updatedFurniture = await _furnitureService.EditAsync(furniture);
+            return Ok(updatedFurniture);
+        }
+
+
+        [HttpDelete("Delete")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            if( await _furnitureService.DeleteAsync(id))
+            {
+                return Ok();
+            }
+            return BadRequest();
+        }
+
+        [HttpGet("Page")]
+        public async Task<IActionResult> Page(int page)
+        {
+            return Ok(await _furnitureService.GetPageAsync(page));
+        }
+
+
+     
+
     }
 }

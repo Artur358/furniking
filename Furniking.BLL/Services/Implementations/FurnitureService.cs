@@ -7,18 +7,27 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Furniking.BLL.Services.Implementations
 {
     public class FurnitureService : IFurnitureService
     {
+
+        private readonly int PAGE_SIZE = 20;
+
         private readonly IFurnitureRepository _furnitureRepository;
+        private readonly ICategoryRepository _categoryRepository;
+
         private readonly IMapper _mapper;
 
-        public FurnitureService(IFurnitureRepository furnitureRepository, IMapper mapper)
+        public FurnitureService(IFurnitureRepository furnitureRepository,
+            ICategoryRepository categoryRepository,
+            IMapper mapper)
         {
             _furnitureRepository = furnitureRepository;
+            _categoryRepository = categoryRepository;
             _mapper = mapper;
         }
 
@@ -26,38 +35,66 @@ namespace Furniking.BLL.Services.Implementations
         public async Task<FurnitureDTO> CreateAsync(CreateFurnitureDTO furniture)
         {
             var m = _mapper.Map<Furniture>(furniture);
-            _ = m;
+            
+            if(await _categoryRepository.GetByIdAsync(m.CategoryId) == null)
+            {
+                throw new Exception();
+            }
 
-            var createdFurniture = await _furnitureRepository.AddAsync(m);
-            _ = createdFurniture;
-            var cat = createdFurniture.Category;
-            _ = cat;
-            return _mapper.Map<FurnitureDTO>(createdFurniture);
+            var createdFurniture = await _furnitureRepository.AddAsync(m, f => f.Category);
+
+            var r = await GetAsync(createdFurniture.Id);
+            return r;
         }
 
-        public Task<FurnitureDTO> DeleteAsync(int id)
+        public async Task<bool> DeleteAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _furnitureRepository.DeleteByIdAsync(id);
         }
 
-        public Task<FurnitureDTO> EditAsync(FurnitureDTO furniture)
+        public async Task<FurnitureDTO> EditAsync(FurnitureDTO furniture)
         {
-            throw new NotImplementedException();
+            if(await _categoryRepository.GetByIdAsync(furniture.Category.Id) == null)
+                throw new Exception();
+
+            var f = await _furnitureRepository.UpdateAsync(_mapper.Map<Furniture>(furniture));
+            
+            return _mapper.Map<FurnitureDTO>(f);
         }
 
-        public Task<IList<FurnitureDTO>> GetAllAsync()
+        public async Task<IList<FurnitureDTO>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            return _mapper.Map<IList<FurnitureDTO>>(await _furnitureRepository.GetAllAsync());
         }
 
-        public Task<FurnitureDTO> GetAsync(int id)
+        public async Task<FurnitureDTO> GetAsync(int id)
         {
-            throw new NotImplementedException();
+            var f = await _furnitureRepository.GetByIdAsync(id);
+            if (f == null)
+                throw new Exception();
+            
+            return _mapper.Map<FurnitureDTO>(f);
         }
 
-        public Task<FurniturePageDTO> GetPageAsync(int page, int pageSize)
+        public async Task<FurniturePageDTO> GetPageAsync(int page)
         {
-            throw new NotImplementedException();
+            var totalCount = await _furnitureRepository.CountAsync();
+            var pageCount = (int)Math.Ceiling((double)totalCount / PAGE_SIZE);
+
+            if (page <= 0) 
+                page = 1;
+            
+            var pageList = await _furnitureRepository.GetPageAsync(page, PAGE_SIZE);
+
+            return new FurniturePageDTO()
+            {
+                Page = page,
+                PageCount = pageCount,
+                TotalCount = totalCount,
+                Furnitures = pageList.Select(f => _mapper.Map<FurnitureDTO>(f)).ToList()
+            };
+              
         }
+
     }
 }

@@ -24,17 +24,5 @@ namespace Furniking.DAL.Data
         public DbSet<Furniture> Furnitures { get; set; }
         public DbSet<Review> Reviews { get; set; }
         public DbSet<Image> Images { get; set; }
-
-
-
-        public void Testing()
-        {
-            foreach (var item in Furnitures)
-            {
-                _ = item;
-
-            }
-        }
-
     }
 }

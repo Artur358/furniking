@@ -11,9 +11,9 @@ namespace Furniking.BLL.Services.Interfaces
     {
         Task<FurnitureDTO> CreateAsync(CreateFurnitureDTO furniture);
         Task<FurnitureDTO> EditAsync(FurnitureDTO furniture);
-        Task<FurnitureDTO> DeleteAsync(int id);
+        Task<bool> DeleteAsync(int id);
         Task<IList<FurnitureDTO>> GetAllAsync();
-        Task<FurniturePageDTO> GetPageAsync(int page, int pageSize);
+        Task<FurniturePageDTO> GetPageAsync(int page);
         Task<FurnitureDTO> GetAsync(int id);
 
     }

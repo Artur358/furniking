@@ -16,7 +16,7 @@ namespace Furniking.BLL.DTOs.FurnitureDTOs
         public CategoryInfoDTO Category { get; set; }
 
         public ICollection<int> ImagesId { get; set; }
-        public ICollection<int> ReviewsId { get; set;}
+        public ICollection<int> ReviewsId { get; set; }
 
     }
 }

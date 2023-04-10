@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Furniking.BLL.DTOs.CategoryDTOs;
 using Furniking.BLL.DTOs.FurnitureDTOs;
 using Furniking.DAL.Entities;
 using System;
@@ -22,7 +23,9 @@ namespace Furniking.BLL.AutoMapper.Profiles
                     dest => dest.ReviewsId,
                     opt => opt.MapFrom(f => f.Reviews.Select(r => r.Id))
                 )
+                .ForMember(dest => dest.Category, opt => opt.MapFrom(src => src.Category))
                 .ReverseMap();
+
 
             CreateMap<Furniture, CreateFurnitureDTO>().ReverseMap();
                 
