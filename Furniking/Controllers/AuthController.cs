@@ -12,10 +12,12 @@ namespace Furniking.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IUserService _userService;
+        private readonly IAuthenticationService _authenticationService;
 
-        public AuthController(IUserService userService)
+        public AuthController(IUserService userService, IAuthenticationService authenticationService)
         {
             _userService = userService;
+            _authenticationService = authenticationService;
         }
 
         [HttpPost("Login")]
@@ -23,7 +25,7 @@ namespace Furniking.Controllers
         [SwaggerResponse(403, Description = "Login is failed! Email or password invalid.")]
         public async Task<IActionResult> Login([FromBody] AuthenticationDTO dto)
         {
-            return Ok(await _userService.LoginAsync(dto));
+            return Ok(await _authenticationService.LoginAsync(dto));
         }
 
         [HttpPost("Registration")]
@@ -32,7 +34,7 @@ namespace Furniking.Controllers
         [SwaggerResponse(500, Description = "Role is not specified on the server!")]
         public async Task<IActionResult> Registration([FromBody] AuthenticationDTO dto)
         {
-            return Ok(await _userService.RegistrationAsync(dto));
+            return Ok(await _authenticationService.RegistrationAsync(dto));
         }
 
         [Authorize]

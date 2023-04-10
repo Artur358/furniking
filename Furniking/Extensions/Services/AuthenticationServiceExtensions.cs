@@ -51,6 +51,7 @@ namespace Furniking.Extensions.Services
 
             services.AddAutoMapper(typeof(UserProfile));
             services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IAuthenticationService, AuthenticationService>();
             services.AddTransient<IJwtFactory, JwtFactory>();
         }
     }

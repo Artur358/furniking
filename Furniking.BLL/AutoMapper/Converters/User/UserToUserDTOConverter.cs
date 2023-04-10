@@ -1,20 +1,20 @@
 ﻿using AutoMapper;
 using Furniking.BLL.DTOs.User;
+using Furniking.DAL.Entities;
 using Microsoft.AspNetCore.Identity;
-using System.Diagnostics;
 
-namespace Furniking.BLL.AutoMapper.Converters.User
+namespace Furniking.BLL.AutoMapper.Converters.UserConverters
 {
-    public class UserToUserDTOConverter : ITypeConverter<Furniking.DAL.Entities.User, UserDTO>
+    public class UserToUserDTOConverter : ITypeConverter<User, UserDTO>
     {
-        private readonly UserManager<Furniking.DAL.Entities.User> _userManager;
+        private readonly UserManager<User> _userManager;
 
-        public UserToUserDTOConverter(UserManager<DAL.Entities.User> userManager)
+        public UserToUserDTOConverter(UserManager<User> userManager)
         {
             _userManager = userManager;
         }
 
-        public UserDTO Convert(Furniking.DAL.Entities.User source, UserDTO destination, ResolutionContext context)
+        public UserDTO Convert(User source, UserDTO destination, ResolutionContext context)
         {
             return new UserDTO
             {
