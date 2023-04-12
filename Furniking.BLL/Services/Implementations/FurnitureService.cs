@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Furniking.BLL.DTOs.FurnitureDTOs;
+using Furniking.BLL.DTOs.ImageDTOs;
 using Furniking.BLL.Services.Interfaces;
 using Furniking.DAL.Entities;
 using Furniking.DAL.Repositories.Interfaces;
@@ -19,32 +20,48 @@ namespace Furniking.BLL.Services.Implementations
 
         private readonly IFurnitureRepository _furnitureRepository;
         private readonly ICategoryRepository _categoryRepository;
+        private readonly IImageService _imageService;
 
         private readonly IMapper _mapper;
 
         public FurnitureService(IFurnitureRepository furnitureRepository,
             ICategoryRepository categoryRepository,
-            IMapper mapper)
+            IMapper mapper,
+            IImageService imageService)
         {
             _furnitureRepository = furnitureRepository;
             _categoryRepository = categoryRepository;
             _mapper = mapper;
+            _imageService = imageService;
         }
 
 
         public async Task<FurnitureDTO> CreateAsync(CreateFurnitureDTO furniture)
         {
-            var m = _mapper.Map<Furniture>(furniture);
-            
-            if(await _categoryRepository.GetByIdAsync(m.CategoryId) == null)
-            {
+            if(await _categoryRepository.GetByIdAsync(furniture.CategoryId) == null)
                 throw new Exception();
+            
+            var m = _mapper.Map<Furniture>(furniture);
+            m.Images = new List<Image>();
+
+            foreach (var item in furniture.formFiles)
+            {
+                using MemoryStream memoryStream = new MemoryStream();
+                item.CopyTo(memoryStream);
+                var buffer = memoryStream.GetBuffer();
+
+                var image = new Image()
+                {
+                    Data = buffer,
+                    Name = item.Name,
+                    Extension = Path.GetExtension(item.FileName),
+                };
+                
+                m.Images.Add(image);
             }
 
             var createdFurniture = await _furnitureRepository.AddAsync(m, f => f.Category);
-
-            var r = await GetAsync(createdFurniture.Id);
-            return r;
+            return _mapper.Map<FurnitureDTO>(createdFurniture);
         }
 
         public async Task<bool> DeleteAsync(int id)

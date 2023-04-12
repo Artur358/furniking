@@ -17,23 +17,30 @@ namespace Furniking.Controllers
     public class FurnitureController : ControllerBase
     {
         private readonly IFurnitureService _furnitureService;
-        private readonly IFurnitureRepository furnitureRepository;
-        private readonly IMapper _mapper;
+        private readonly IImageService _imageService;
+        
 
 
-        public FurnitureController(IFurnitureService furnitureService, IFurnitureRepository furnitureRepository, IMapper mapper = null)
+        public FurnitureController(IFurnitureService furnitureService, IImageService imageService)
         {
             this._furnitureService = furnitureService;
-            this.furnitureRepository = furnitureRepository;
-            _mapper = mapper;
+            _imageService = imageService;
         }
 
 
         [HttpPost("Create")]
-        public async Task<IActionResult> Create(CreateFurnitureDTO furniture)
+        public async Task<IActionResult> Create([FromForm] CreateFurnitureDTO furniture)
         {
+            
+            foreach (var file in furniture.formFiles)
+            {
+                var extension = Path.GetExtension(file.FileName);
+                if (!(new[] { ".jpg", ".png" }).Contains(extension))
+                    throw new Exception();   
+            }
             var createdFurniture = await _furnitureService.CreateAsync(furniture);
             return Ok(createdFurniture);
+            
         }
 
         [HttpGet("Get")]
@@ -68,7 +75,11 @@ namespace Furniking.Controllers
             return Ok(await _furnitureService.GetPageAsync(page));
         }
 
-
+        [HttpGet]
+        public IActionResult Image(int id)
+        {
+            return Ok(_imageService.Get(id));
+        }
      
 
     }
