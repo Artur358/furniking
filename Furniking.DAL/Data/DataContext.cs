@@ -27,6 +27,8 @@ namespace Furniking.DAL.Data
         {
             base.OnModelCreating(builder);
 
+            RoleHelper.LoadRoles(builder, _configuration.GetRequiredSection("User:Roles").GetChildren().Select(s => s.Value));
+
             if (bool.Parse(_configuration["DB:UseFakeDatas"]) == true)
                 FakeDatasHelper.LoadToDb(builder);
         }

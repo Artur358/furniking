@@ -20,7 +20,6 @@ namespace Furniking.DAL.Data.Helpers
 
             var categories = LoadFakeCategories(builder);
             var furnitures = LoadFakeFurniture(builder, categories);
-            LoadFakeRoles(builder);
             var users = LoadFakeUsers(builder);
             LoadFakeRewiews(builder, users, furnitures);
         }
@@ -44,16 +43,6 @@ namespace Furniking.DAL.Data.Helpers
                 .RuleFor(x => x.CategoryId, f => f.PickRandom(categories).Id);
 
             return LoadDatasToDb(builder.Entity<Furniture>(), faker.Generate(FURNITURE_COUNT));
-        }
-
-        private static void LoadFakeRoles(ModelBuilder builder)
-        {
-            LoadDatasToDb(builder.Entity<IdentityRole<int>>(), new[] 
-            {
-                new IdentityRole<int>("User") { Id = 1, NormalizedName = "USER" },
-                new IdentityRole<int>("Moderator") { Id = 2, NormalizedName = "MODERATOR" },
-                new IdentityRole<int>("Admin") { Id = 3, NormalizedName = "ADMIN" },
-            });
         }
 
         private static IEnumerable<User> LoadFakeUsers(ModelBuilder builder)
