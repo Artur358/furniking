@@ -89,11 +89,8 @@ namespace Furniking
                 app.UseCustomExceptionHandler();
             }
 
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            }
+            app.UseSwagger();
+            app.UseSwaggerUI();
 
             //app.UseHttpsRedirection();
 
@@ -105,4 +102,4 @@ namespace Furniking
             app.Run();
         }
     }
-}
+}                                                

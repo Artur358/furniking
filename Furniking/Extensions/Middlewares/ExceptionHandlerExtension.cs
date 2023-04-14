@@ -1,6 +1,6 @@
 ﻿using Furniking.BLL.Exceptions;
 using Microsoft.AspNetCore.Diagnostics;
-using System.Net.Mail;
+using System.Diagnostics;
 using System.Text.Json;
 
 namespace Furniking.Extensions.Middlewares
@@ -26,11 +26,13 @@ namespace Furniking.Extensions.Middlewares
 
                     await context.Response.WriteAsync(JsonSerializer.Serialize(new
                     {
-                        StatusCode = statusCode,
-                        Message = exception.Error.Message
+                        Type = exception.Error.GetType().Name,
+                        Title = exception.Error.Message,
+                        Status = statusCode,
+                        TraceId = Activity.Current?.Id ?? context?.TraceIdentifier,
                     }));
                 });
-            });
+            }); 
         }
     }
 }
