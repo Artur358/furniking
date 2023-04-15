@@ -5,6 +5,7 @@ using Furniking.DAL.Data;
 using Furniking.DAL.Data.Helpers;
 using Furniking.DAL.Repositories.Implementations;
 using Furniking.DAL.Repositories.Interfaces;
+using Furniking.Extensions;
 using Furniking.Extensions.Middlewares;
 using Microsoft.EntityFrameworkCore;
 
