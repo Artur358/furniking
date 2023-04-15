@@ -1,21 +1,12 @@
-using Furniking.BLL.AutoMapper.Profiles;
-using Furniking.BLL.Services.Implementations;
-using Furniking.BLL.Services.Interfaces;
 using Furniking.DAL.Data;
-using Furniking.DAL.Data.Helpers;
 using Furniking.DAL.Repositories.Implementations;
 using Furniking.DAL.Repositories.Interfaces;
 
 using Furniking.Extensions;
 using Furniking.Extensions.Middlewares;
 using Furniking.Extensions.Services;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Hosting;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using System.Runtime;
-using System.Text;
 
 namespace Furniking
 {

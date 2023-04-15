@@ -1,4 +1,4 @@
-﻿using Furniking.DAL.Data.Helpers;
+﻿using Furniking.DAL.Data.Extensions.ModelBuilderExtensions;
 using Furniking.DAL.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -27,10 +27,10 @@ namespace Furniking.DAL.Data
         {
             base.OnModelCreating(builder);
 
-            RoleHelper.LoadRoles(builder, _configuration.GetRequiredSection("User:Roles").GetChildren().Select(s => s.Value));
+            builder.LoadRoles(_configuration.GetRequiredSection("User:Roles").GetChildren().Select(s => s.Value));
 
             if (bool.Parse(_configuration["DB:UseFakeDatas"]) == true)
-                FakeDatasHelper.LoadToDb(builder);
+                builder.LoadFakeDatas();
         }
     }
 }

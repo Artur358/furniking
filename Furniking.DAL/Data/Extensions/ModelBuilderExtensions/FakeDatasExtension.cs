@@ -4,9 +4,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Furniking.DAL.Data.Helpers
+namespace Furniking.DAL.Data.Extensions.ModelBuilderExtensions
 {
-    public static class FakeDatasHelper
+    public static class FakeDatasExtension
     {
         private const int CATEGORIES_COUNT = 6;
         private const int FURNITURE_COUNT = 50;
@@ -14,17 +14,17 @@ namespace Furniking.DAL.Data.Helpers
 
         private const string LOCALE = "en";
 
-        public static void LoadToDb(ModelBuilder builder)
+        public static void LoadFakeDatas(this ModelBuilder builder)
         {
             ArgumentNullException.ThrowIfNull(builder);
 
-            var categories = LoadFakeCategories(builder);
-            var furnitures = LoadFakeFurniture(builder, categories);
-            var users = LoadFakeUsers(builder);
-            LoadFakeRewiews(builder, users, furnitures);
+            var categories = builder.LoadFakeCategories();
+            var furnitures = builder.LoadFakeFurniture(categories);
+            var users = builder.LoadFakeUsers();
+            builder.LoadFakeRewiews(users, furnitures);
         }
 
-        private static IEnumerable<Category> LoadFakeCategories(ModelBuilder builder)
+        private static IEnumerable<Category> LoadFakeCategories(this ModelBuilder builder)
         {
             var faker = new Faker<Category>(LOCALE)
                 .RuleFor(x => x.Id, f => f.IndexFaker + 1)
@@ -33,7 +33,7 @@ namespace Furniking.DAL.Data.Helpers
             return LoadDatasToDb(builder.Entity<Category>(), faker.Generate(CATEGORIES_COUNT));
         }
 
-        private static IEnumerable<Furniture> LoadFakeFurniture(ModelBuilder builder, IEnumerable<Category> categories)
+        private static IEnumerable<Furniture> LoadFakeFurniture(this ModelBuilder builder, IEnumerable<Category> categories)
         {
             var faker = new Faker<Furniture>(LOCALE)
                 .RuleFor(x => x.Id, f => f.IndexFaker + 1)
@@ -45,7 +45,7 @@ namespace Furniking.DAL.Data.Helpers
             return LoadDatasToDb(builder.Entity<Furniture>(), faker.Generate(FURNITURE_COUNT));
         }
 
-        private static IEnumerable<User> LoadFakeUsers(ModelBuilder builder)
+        private static IEnumerable<User> LoadFakeUsers(this ModelBuilder builder)
         {
             var user = new User()
             {
@@ -93,7 +93,7 @@ namespace Furniking.DAL.Data.Helpers
             });
         }
 
-        private static void LoadFakeRewiews(ModelBuilder builder, IEnumerable<User> users, IEnumerable<Furniture> furnitures)
+        private static void LoadFakeRewiews(this ModelBuilder builder, IEnumerable<User> users, IEnumerable<Furniture> furnitures)
         {
             var faker = new Faker<Review>(LOCALE)
                 .RuleFor(x => x.Id, f => f.IndexFaker + 1)

@@ -3,7 +3,6 @@ using Furniking.BLL.DTOs.CategoryDTOs;
 using Furniking.BLL.DTOs.FurnitureDTOs;
 using Furniking.BLL.Services.Interfaces;
 using Furniking.DAL.Data;
-using Furniking.DAL.Data.Helpers;
 using Furniking.DAL.Entities;
 using Furniking.DAL.Repositories.Interfaces;
 using Microsoft.AspNetCore.Http;
