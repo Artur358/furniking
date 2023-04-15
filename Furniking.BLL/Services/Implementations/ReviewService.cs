@@ -2,22 +2,22 @@
 using Furniking.BLL.DTOs.ReviewDTOs;
 using Furniking.BLL.Services.Interfaces;
 using Furniking.DAL.Entities;
+using Furniking.DAL.Repositories.Implementations;
 using Furniking.DAL.Repositories.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Furniking.BLL.Services.Implementations
 {
 	public class ReviewService : IReviewService
 	{
 		private readonly IReviewRepository _reviewRepository;
+		private readonly IFurnitureRepository _furnitureRepository;
+		private readonly IUserService _userService;
 		private readonly IMapper _mapper;
 
-		public ReviewService(IReviewRepository reviewRepository, IMapper mapper)
+		public ReviewService(IReviewRepository reviewRepository, IMapper mapper, IUserService userService, IFurnitureRepository furnitureRepository)
 		{
+			_userService = userService;
+			_furnitureRepository = furnitureRepository;
 			_reviewRepository = reviewRepository;
 			_mapper = mapper;
 		}
@@ -25,6 +25,14 @@ namespace Furniking.BLL.Services.Implementations
 		{
 			var review = _mapper.Map<Review>(reviewDto);
 			var addedReview = await _reviewRepository.AddAsync(review);
+			if ((await _userService.GetByIdAsync(addedReview.UserId) == null))
+			{
+				throw new Exception("Invalid user Id");
+			}
+			if ((await _furnitureRepository.GetByIdAsync(addedReview.FurnitureId) == null))
+			{
+				throw new Exception("Invalid furniture Id");
+			}
 			return _mapper.Map<AddReviewDTO>(addedReview);
 		}
 
@@ -42,9 +50,9 @@ namespace Furniking.BLL.Services.Implementations
 			await _reviewRepository.UpdateAsync(review);
 		}
 
-		public async Task DeleteReviewAsync(int reviewId)
+		public async Task<bool> DeleteReviewAsync(int reviewId)
 		{
-			await _reviewRepository.DeleteByIdAsync(reviewId);
+			return await _reviewRepository.DeleteByIdAsync(reviewId);
 		}
 		public async Task<bool> LikeAsync(int reviewId)
 		{

@@ -10,7 +10,7 @@ namespace Furniking.BLL.Services.Interfaces
 		Task UpdateReviewAsync(Review review);
 		Task<IEnumerable<Review>> GetPageReviewsAsync(int count, int page);
 		Task<IEnumerable<Review>> GetAllReviewsAsync();
-		Task DeleteReviewAsync(int reviewId);
+		Task<bool> DeleteReviewAsync(int reviewId);
 		Task<bool> LikeAsync(int reviewId);
 		Task<bool> DislikeAsync(int reviewId);
 	}

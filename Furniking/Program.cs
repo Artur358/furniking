@@ -5,59 +5,60 @@ using Furniking.DAL.Data;
 using Furniking.DAL.Data.Helpers;
 using Furniking.DAL.Repositories.Implementations;
 using Furniking.DAL.Repositories.Interfaces;
+using Furniking.Extensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace Furniking
 {
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
-            var builder = WebApplication.CreateBuilder(args);
+	public class Program
+	{
+		public static void Main(string[] args)
+		{
+			var builder = WebApplication.CreateBuilder(args);
 
 
-            builder.Services.AddDbContext<DataContext>(op =>
-            {
-                op
-                .UseLazyLoadingProxies()
-                .UseSqlServer(builder.Configuration.GetConnectionString("devDB"));
-            });
-
-            //var db = builder.Services.BuildServiceProvider().GetService<DataContext>();
-            //db.LoadFakeData();
+			builder.Services.AddDbContext<DataContext>(op =>
+			{
+				op
+				.UseLazyLoadingProxies()
+				.UseSqlServer(builder.Configuration.GetConnectionString("devDB"));
+			});
 
 
-            builder.Services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
-
-            builder.Services.AddTransient<ICategoryRepository, CategoryRepository>();
-            builder.Services.AddTransient<ICategoryService, CategoryService>();
+			// TODO: Use IUnitOfWork
+			builder.Services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
+			builder.Services.AddTransient<ICategoryRepository, CategoryRepository>();
 			builder.Services.AddTransient<IReviewRepository, ReviewRepository>();
-			builder.Services.AddTransient<IReviewService, ReviewService>();
-			builder.Services.AddAutoMapper(typeof(ReviewProfile));
+
+			// Services
+			builder.Services.ServicesRegister();
+
+			// AutoMapper
+			builder.Services.AutoMapperProfilesRegister();
 
 			// Add services to the container.
 			builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+			// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+			builder.Services.AddEndpointsApiExplorer();
+			builder.Services.AddSwaggerGen();
 
-            var app = builder.Build();
-            
-            // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            }
+			var app = builder.Build();
 
-            app.UseHttpsRedirection();
+			// Configure the HTTP request pipeline.
+			if (app.Environment.IsDevelopment())
+			{
+				app.UseSwagger();
+				app.UseSwaggerUI();
+			}
 
-            app.UseAuthorization();
+			app.UseHttpsRedirection();
+
+			app.UseAuthorization();
 
 
-            app.MapControllers();
+			app.MapControllers();
 
-            app.Run();
-        }
-    }
+			app.Run();
+		}
+	}
 }

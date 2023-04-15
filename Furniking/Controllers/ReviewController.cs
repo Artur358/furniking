@@ -1,4 +1,5 @@
 ﻿using Furniking.BLL.DTOs.ReviewDTOs;
+using Furniking.BLL.Exceptions;
 using Furniking.BLL.Services.Implementations;
 using Furniking.BLL.Services.Interfaces;
 using Furniking.DAL.Entities;
@@ -33,21 +34,14 @@ namespace Furniking.Controllers
 		[HttpPost("/review/add")]
 		public async Task<IActionResult> CreateReview([FromBody] AddReviewDTO reviewDTO)
 		{
-			if (int.TryParse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value, out int userId))
+			if (!int.TryParse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value, out int userId))
 			{
-				reviewDTO.UserId = userId;
-				var createdReview = await _reviewService.AddReviewAsync(reviewDTO);
-				if (createdReview == null)
-				{
-					return BadRequest();
-				}
+				return BadRequest(new IdIncorrectException());
+			}
 
-				return Ok(createdReview);
-			}
-			else
-			{
-				return BadRequest("User ID is not valid.");
-			}
+			reviewDTO.UserId = userId;
+			var createdReview = await _reviewService.AddReviewAsync(reviewDTO);
+			return Ok(createdReview);
 		}
 		[HttpPost("{reviewId}/likes")]
 		public async Task<IActionResult> AddLikeAsync(int reviewId)
@@ -65,6 +59,23 @@ namespace Furniking.Controllers
 				return Ok();
 
 			return NotFound();
+		}
+		//[HttpPut("Edit")]
+		//public async Task<IActionResult> Edit(FurnitureDTO furniture)
+		//{
+		//	var updatedFurniture = await _furnitureService.EditAsync(furniture);
+		//	return Ok(updatedFurniture);
+		//}
+
+
+		[HttpDelete("Delete")]
+		public async Task<IActionResult> Delete(int id)
+		{
+			if (await _reviewService.DeleteReviewAsync(id))
+			{
+				return Ok();
+			}
+			return BadRequest();
 		}
 
 	}

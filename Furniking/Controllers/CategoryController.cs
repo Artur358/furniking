@@ -16,9 +16,9 @@ namespace Furniking.Controllers
         }
 
         [HttpGet("/Categories")]
-        public async Task<IActionResult> GetAllCategories()
+        public async Task<IActionResult> GetAll()
         {
-            return Ok(await _categoryService.GetAllCategoryAsync());
+            return Ok(await _categoryService.GetAllAsync());
         }
 
         [HttpGet("/Category/{id}")]
@@ -37,6 +37,13 @@ namespace Furniking.Controllers
         {
             // при невдалому додавані кинеться помилка DbUpdateException
             return Ok(await _categoryService.AddAsync(dto));
+        }
+
+        [HttpPost("/Category/Edit")]
+        public async Task<IActionResult> Edit(EditCategoryDTO dto)
+        {
+            // при невдалому додавані кинеться помилка DbUpdateException
+            return Ok(await _categoryService.EditAsync(dto));
         }
 
         [HttpPost("/Category/Remove/{id}")]
