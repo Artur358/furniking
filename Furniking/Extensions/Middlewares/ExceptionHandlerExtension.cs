@@ -17,22 +17,42 @@ namespace Furniking.Extensions.Middlewares
                     if (exception == null)
                         return;
 
-                    var statusCode = StatusCodes.Status500InternalServerError;
+                    dynamic responce;
                     if (exception.Error is ApiException apiException)
-                        statusCode = apiException.StatusCode;
+                        responce = GetApiExceptionResponce(apiException, context);
+                    else
+                        responce = GetServerErrorResponce(exception.Error, context);
 
-                    context.Response.StatusCode = statusCode;
+                    context.Response.StatusCode = responce.Status;
                     context.Response.ContentType = "application/json";
 
-                    await context.Response.WriteAsync(JsonSerializer.Serialize(new
-                    {
-                        Type = exception.Error.GetType().Name,
-                        Title = exception.Error.Message,
-                        Status = statusCode,
-                        TraceId = Activity.Current?.Id ?? context?.TraceIdentifier,
-                    }));
+                    string json = JsonSerializer.Serialize(responce);
+                    await context.Response.WriteAsync(json);
                 });
             }); 
+        }
+
+        private static dynamic GetApiExceptionResponce(ApiException exception, HttpContext context)
+        {
+            return new
+            {
+                Type = exception.GetType().Name,
+                Title = exception.Message,
+                Status = exception.StatusCode,
+                TraceId = Activity.Current?.Id ?? context?.TraceIdentifier,
+                Errors = exception.Errors,
+            };
+        }
+
+        private static dynamic GetServerErrorResponce(Exception exception, HttpContext context)
+        {
+            return new
+            {
+                Type = exception.GetType().Name,
+                Title = exception.Message,
+                Status = StatusCodes.Status500InternalServerError,
+                TraceId = Activity.Current?.Id ?? context?.TraceIdentifier,
+            };
         }
     }
 }
