@@ -5,13 +5,14 @@ using Furniking.DAL.Repositories.Interfaces;
 
 namespace Furniking.Extensions
 {
-	internal static class ServicesRegistration
-	{
-		public static IServiceCollection ServicesRegister(this IServiceCollection services)
-		{
-			services.AddTransient<ICategoryService, CategoryService>();
+    internal static class ServicesRegistration
+    {
+        public static IServiceCollection ServicesRegister(this IServiceCollection services)
+        {
+            services.AddTransient<ICategoryService, CategoryService>();
+            services.AddTransient<IFurnitureService, FurnitureService>();
 			services.AddTransient<IReviewRepository, ReviewRepository>();
-			return services;
-		}
-	}
+            return services;
+        }
+    }
 }
