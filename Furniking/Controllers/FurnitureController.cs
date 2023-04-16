@@ -17,14 +17,12 @@ namespace Furniking.Controllers
     public class FurnitureController : ControllerBase
     {
         private readonly IFurnitureService _furnitureService;
-        private readonly IFurnitureRepository furnitureRepository;
         private readonly IMapper _mapper;
 
 
-        public FurnitureController(IFurnitureService furnitureService, IFurnitureRepository furnitureRepository, IMapper mapper = null)
+        public FurnitureController(IFurnitureService furnitureService, IMapper mapper = null)
         {
             this._furnitureService = furnitureService;
-            this.furnitureRepository = furnitureRepository;
             _mapper = mapper;
         }
 

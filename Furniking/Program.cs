@@ -5,7 +5,6 @@ using Furniking.DAL.Data;
 using Furniking.DAL.Data.Helpers;
 using Furniking.DAL.Repositories.Implementations;
 using Furniking.DAL.Repositories.Interfaces;
-
 using Furniking.Extensions;
 using Furniking.Extensions.Middlewares;
 using Furniking.Extensions.Services;
@@ -37,12 +36,11 @@ namespace Furniking
 			// TODO: Use IUnitOfWork
 			builder.Services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
 			builder.Services.AddTransient<ICategoryRepository, CategoryRepository>();
+			builder.Services.AddTransient<IFurnitureRepository, FurnitureRepository>();
 			builder.Services.AddTransient<IReviewRepository, ReviewRepository>();
 
 			// Services
 			builder.Services.ServicesRegister();
-
-            builder.Services.AddAutoMapper(typeof(CategoryProfile));
 
             // AutoMapper
             builder.Services.AutoMapperProfilesRegister();

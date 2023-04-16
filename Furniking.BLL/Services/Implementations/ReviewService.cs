@@ -2,7 +2,6 @@
 using Furniking.BLL.DTOs.ReviewDTOs;
 using Furniking.BLL.Services.Interfaces;
 using Furniking.DAL.Entities;
-using Furniking.DAL.Repositories.Implementations;
 using Furniking.DAL.Repositories.Interfaces;
 
 namespace Furniking.BLL.Services.Implementations
