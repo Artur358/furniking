@@ -24,7 +24,6 @@ namespace Furniking
 		{
 			var builder = WebApplication.CreateBuilder(args);
 
-
 			builder.Services.AddDbContext<DataContext>(op =>
 			{
 				op

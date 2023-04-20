@@ -2,6 +2,7 @@
 using Furniking.BLL.Exceptions;
 using Furniking.BLL.Services.Implementations;
 using Furniking.BLL.Services.Interfaces;
+using Furniking.DAL.Data;
 using Furniking.DAL.Entities;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -27,8 +28,7 @@ namespace Furniking.Controllers
 		[HttpGet("next-page")]
 		public async Task<IActionResult> GetNextPageReviews(int count, int currentPage)
 		{
-			var nextPage = currentPage + 1;
-			return Ok(await _reviewService.GetPageReviewsAsync(count, nextPage));
+			return Ok(await _reviewService.GetPageReviewsAsync(count, currentPage));
 		}
 
 		[HttpPost("/review/add")]
@@ -60,12 +60,13 @@ namespace Furniking.Controllers
 
 			return NotFound();
 		}
-		//[HttpPut("Edit")]
-		//public async Task<IActionResult> Edit(FurnitureDTO furniture)
-		//{
-		//	var updatedFurniture = await _furnitureService.EditAsync(furniture);
-		//	return Ok(updatedFurniture);
-		//}
+
+		[HttpPut("Edit")]
+		public async Task<IActionResult> Edit(EditReviewDTO review)
+		{
+			var updatedReview = await _reviewService.EditAsync(review);
+			return Ok(updatedReview);
+		}
 
 
 		[HttpDelete("Delete")]

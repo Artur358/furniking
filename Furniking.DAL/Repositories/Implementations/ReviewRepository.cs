@@ -12,10 +12,10 @@ namespace Furniking.DAL.Repositories.Implementations
 		public ReviewRepository(DataContext dbContext, IRepository<Review> reviewRepository) : base(dbContext)
 		{
 			_reviewRepository = reviewRepository;
-		}
+		}			
 		public async Task<IEnumerable<Review>> GetPageReviewsAsync(int count, int page)
 		{
-			return await _dbSet.Skip(count * page).Take(count).ToListAsync();
+			return await _dbContext.Reviews.Skip(count * (page-1)).Take(count).ToListAsync();
 		}
 		public async Task<bool> LikeAsync(int reviewId)
 		{

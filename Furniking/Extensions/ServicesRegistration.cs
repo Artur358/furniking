@@ -11,7 +11,7 @@ namespace Furniking.Extensions
         {
             services.AddTransient<ICategoryService, CategoryService>();
             services.AddTransient<IFurnitureService, FurnitureService>();
-			services.AddTransient<IReviewRepository, ReviewRepository>();
+			services.AddTransient<IReviewService, ReviewService>();
             return services;
         }
     }

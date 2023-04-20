@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
+using Furniking.BLL.DTOs.FurnitureDTOs;
 using Furniking.BLL.DTOs.ReviewDTOs;
 using Furniking.BLL.Services.Interfaces;
 using Furniking.DAL.Entities;
+using Furniking.DAL.Repositories.Implementations;
 using Furniking.DAL.Repositories.Interfaces;
 
 namespace Furniking.BLL.Services.Implementations
@@ -35,18 +37,29 @@ namespace Furniking.BLL.Services.Implementations
 			return _mapper.Map<AddReviewDTO>(addedReview);
 		}
 
-		public async Task<IEnumerable<Review>> GetPageReviewsAsync(int count, int page)
+		public async Task<IEnumerable<GetAllReviewDTO>> GetPageReviewsAsync(int count, int page)
 		{
-			return await _reviewRepository.GetPageReviewsAsync(count, page);
+			var reviews = await _reviewRepository.GetPageReviewsAsync(count, page);
+
+			return _mapper.Map<IEnumerable<GetAllReviewDTO>>(reviews);
 		}
-		public async Task<IEnumerable<Review>> GetAllReviewsAsync()
+		public async Task<IEnumerable<GetAllReviewDTO>> GetAllReviewsAsync()
 		{
-			return await _reviewRepository.GetAllAsync();
+			var reviews = await _reviewRepository.GetAllAsync();
+			return _mapper.Map<IEnumerable<GetAllReviewDTO>>(reviews);
 		}
 
 		public async Task UpdateReviewAsync(Review review)
 		{
 			await _reviewRepository.UpdateAsync(review);
+		}
+
+		public async Task<EditReviewDTO> EditAsync(EditReviewDTO review)
+		{
+			var reviewDb = _reviewRepository.GetByIdAsync(review.Id);
+			var updatedReview = await _reviewRepository.UpdateAsync(_mapper.Map<Review>(reviewDb));
+
+			return _mapper.Map<EditReviewDTO>(updatedReview);
 		}
 
 		public async Task<bool> DeleteReviewAsync(int reviewId)
