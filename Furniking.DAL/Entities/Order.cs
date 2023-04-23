@@ -8,7 +8,7 @@ namespace Furniking.DAL.Entities
 {
     public class Order : BaseEntity
     {
-        public DateTime date { get; set; }
+        public DateTime DateOfOrder { get; set; }
 
         public int Count { get; set; }
 

@@ -4,6 +4,7 @@ using Furniking.DAL.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Furniking.DAL.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230417190000_AddedFakeDatas")]
+    partial class AddedFakeDatas
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -562,248 +565,6 @@ namespace Furniking.DAL.Data.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Orders");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Count = 1,
-                            DateOfOrder = new DateTime(2023, 3, 19, 4, 11, 55, 228, DateTimeKind.Unspecified).AddTicks(5825),
-                            FurnitureId = 26,
-                            UserId = 3
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Count = 4,
-                            DateOfOrder = new DateTime(2023, 4, 11, 15, 31, 2, 526, DateTimeKind.Unspecified).AddTicks(6767),
-                            FurnitureId = 37,
-                            UserId = 1
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Count = 2,
-                            DateOfOrder = new DateTime(2023, 4, 1, 16, 28, 3, 393, DateTimeKind.Unspecified).AddTicks(1365),
-                            FurnitureId = 20,
-                            UserId = 1
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Count = 2,
-                            DateOfOrder = new DateTime(2023, 3, 17, 15, 28, 59, 874, DateTimeKind.Unspecified).AddTicks(1132),
-                            FurnitureId = 38,
-                            UserId = 1
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Count = 1,
-                            DateOfOrder = new DateTime(2023, 4, 13, 11, 57, 26, 773, DateTimeKind.Unspecified).AddTicks(2913),
-                            FurnitureId = 18,
-                            UserId = 3
-                        },
-                        new
-                        {
-                            Id = 6,
-                            Count = 1,
-                            DateOfOrder = new DateTime(2023, 4, 2, 10, 0, 35, 245, DateTimeKind.Unspecified).AddTicks(3564),
-                            FurnitureId = 36,
-                            UserId = 2
-                        },
-                        new
-                        {
-                            Id = 7,
-                            Count = 3,
-                            DateOfOrder = new DateTime(2023, 4, 5, 5, 41, 16, 627, DateTimeKind.Unspecified).AddTicks(3057),
-                            FurnitureId = 38,
-                            UserId = 3
-                        },
-                        new
-                        {
-                            Id = 8,
-                            Count = 2,
-                            DateOfOrder = new DateTime(2023, 3, 24, 14, 28, 16, 991, DateTimeKind.Unspecified).AddTicks(3561),
-                            FurnitureId = 11,
-                            UserId = 3
-                        },
-                        new
-                        {
-                            Id = 9,
-                            Count = 3,
-                            DateOfOrder = new DateTime(2023, 4, 1, 1, 7, 51, 160, DateTimeKind.Unspecified).AddTicks(9815),
-                            FurnitureId = 39,
-                            UserId = 1
-                        },
-                        new
-                        {
-                            Id = 10,
-                            Count = 1,
-                            DateOfOrder = new DateTime(2023, 4, 1, 0, 1, 50, 206, DateTimeKind.Unspecified).AddTicks(8857),
-                            FurnitureId = 25,
-                            UserId = 2
-                        },
-                        new
-                        {
-                            Id = 11,
-                            Count = 4,
-                            DateOfOrder = new DateTime(2023, 3, 30, 23, 43, 41, 908, DateTimeKind.Unspecified).AddTicks(9056),
-                            FurnitureId = 15,
-                            UserId = 1
-                        },
-                        new
-                        {
-                            Id = 12,
-                            Count = 4,
-                            DateOfOrder = new DateTime(2023, 3, 26, 3, 18, 55, 125, DateTimeKind.Unspecified).AddTicks(7335),
-                            FurnitureId = 43,
-                            UserId = 2
-                        },
-                        new
-                        {
-                            Id = 13,
-                            Count = 1,
-                            DateOfOrder = new DateTime(2023, 4, 12, 10, 2, 13, 974, DateTimeKind.Unspecified).AddTicks(2114),
-                            FurnitureId = 31,
-                            UserId = 2
-                        },
-                        new
-                        {
-                            Id = 14,
-                            Count = 3,
-                            DateOfOrder = new DateTime(2023, 4, 1, 9, 32, 32, 824, DateTimeKind.Unspecified).AddTicks(4670),
-                            FurnitureId = 27,
-                            UserId = 1
-                        },
-                        new
-                        {
-                            Id = 15,
-                            Count = 4,
-                            DateOfOrder = new DateTime(2023, 3, 19, 2, 2, 28, 257, DateTimeKind.Unspecified).AddTicks(1889),
-                            FurnitureId = 9,
-                            UserId = 3
-                        },
-                        new
-                        {
-                            Id = 16,
-                            Count = 1,
-                            DateOfOrder = new DateTime(2023, 3, 29, 23, 2, 54, 906, DateTimeKind.Unspecified).AddTicks(5666),
-                            FurnitureId = 1,
-                            UserId = 2
-                        },
-                        new
-                        {
-                            Id = 17,
-                            Count = 5,
-                            DateOfOrder = new DateTime(2023, 3, 17, 14, 40, 38, 212, DateTimeKind.Unspecified).AddTicks(5221),
-                            FurnitureId = 37,
-                            UserId = 3
-                        },
-                        new
-                        {
-                            Id = 18,
-                            Count = 4,
-                            DateOfOrder = new DateTime(2023, 3, 28, 6, 51, 24, 250, DateTimeKind.Unspecified).AddTicks(8342),
-                            FurnitureId = 36,
-                            UserId = 3
-                        },
-                        new
-                        {
-                            Id = 19,
-                            Count = 3,
-                            DateOfOrder = new DateTime(2023, 3, 28, 14, 43, 56, 276, DateTimeKind.Unspecified).AddTicks(7467),
-                            FurnitureId = 33,
-                            UserId = 2
-                        },
-                        new
-                        {
-                            Id = 20,
-                            Count = 2,
-                            DateOfOrder = new DateTime(2023, 3, 19, 8, 19, 53, 724, DateTimeKind.Unspecified).AddTicks(7938),
-                            FurnitureId = 15,
-                            UserId = 1
-                        },
-                        new
-                        {
-                            Id = 21,
-                            Count = 2,
-                            DateOfOrder = new DateTime(2023, 4, 13, 6, 34, 59, 54, DateTimeKind.Unspecified).AddTicks(2060),
-                            FurnitureId = 28,
-                            UserId = 2
-                        },
-                        new
-                        {
-                            Id = 22,
-                            Count = 4,
-                            DateOfOrder = new DateTime(2023, 3, 19, 4, 27, 38, 424, DateTimeKind.Unspecified).AddTicks(1912),
-                            FurnitureId = 2,
-                            UserId = 3
-                        },
-                        new
-                        {
-                            Id = 23,
-                            Count = 3,
-                            DateOfOrder = new DateTime(2023, 4, 8, 4, 26, 14, 380, DateTimeKind.Unspecified).AddTicks(2294),
-                            FurnitureId = 47,
-                            UserId = 1
-                        },
-                        new
-                        {
-                            Id = 24,
-                            Count = 3,
-                            DateOfOrder = new DateTime(2023, 3, 25, 9, 38, 8, 363, DateTimeKind.Unspecified).AddTicks(7858),
-                            FurnitureId = 15,
-                            UserId = 2
-                        },
-                        new
-                        {
-                            Id = 25,
-                            Count = 1,
-                            DateOfOrder = new DateTime(2023, 3, 24, 21, 42, 53, 872, DateTimeKind.Unspecified).AddTicks(8187),
-                            FurnitureId = 31,
-                            UserId = 2
-                        },
-                        new
-                        {
-                            Id = 26,
-                            Count = 3,
-                            DateOfOrder = new DateTime(2023, 4, 5, 19, 22, 27, 465, DateTimeKind.Unspecified).AddTicks(7339),
-                            FurnitureId = 41,
-                            UserId = 1
-                        },
-                        new
-                        {
-                            Id = 27,
-                            Count = 1,
-                            DateOfOrder = new DateTime(2023, 4, 14, 22, 16, 57, 585, DateTimeKind.Unspecified).AddTicks(9348),
-                            FurnitureId = 4,
-                            UserId = 1
-                        },
-                        new
-                        {
-                            Id = 28,
-                            Count = 5,
-                            DateOfOrder = new DateTime(2023, 3, 28, 16, 58, 15, 83, DateTimeKind.Unspecified).AddTicks(893),
-                            FurnitureId = 32,
-                            UserId = 1
-                        },
-                        new
-                        {
-                            Id = 29,
-                            Count = 5,
-                            DateOfOrder = new DateTime(2023, 4, 5, 23, 51, 22, 963, DateTimeKind.Unspecified).AddTicks(6571),
-                            FurnitureId = 11,
-                            UserId = 3
-                        },
-                        new
-                        {
-                            Id = 30,
-                            Count = 5,
-                            DateOfOrder = new DateTime(2023, 4, 10, 16, 5, 48, 554, DateTimeKind.Unspecified).AddTicks(1077),
-                            FurnitureId = 38,
-                            UserId = 2
-                        });
                 });
 
             modelBuilder.Entity("Furniking.DAL.Entities.Review", b =>
@@ -1453,13 +1214,13 @@ namespace Furniking.DAL.Data.Migrations
                         {
                             Id = 1,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "b616c486-2b7b-4441-8dbd-0096b713a25b",
+                            ConcurrencyStamp = "21c53e03-fd40-4570-90c8-211429dee3b3",
                             Email = "user@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "USER@GMAIL.COM",
                             NormalizedUserName = "USER@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEBfR7TYeWK3iPouKuPHdmpubv74fbRO9/SQDHpibpovHym8bWDXMhpfnP2OzyZG6XQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEHoWCBgH3ws4pJuPE0Sw0nXGaaSaUaWQ0xd8iGVtU0PpUSaU3sx1hunMzugJILO0jQ==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
                             UserName = "user@gmail.com"
@@ -1468,13 +1229,13 @@ namespace Furniking.DAL.Data.Migrations
                         {
                             Id = 2,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "f77b1390-1010-4d2f-95cd-63ae918eaff0",
+                            ConcurrencyStamp = "ee75aeac-5629-48db-a34a-5c97a0e31e8e",
                             Email = "moderator@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "MODERATOR@GMAIL.COM",
                             NormalizedUserName = "MODERATOR@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEA3QY8+YreyiJ/ZbgX1cT7IsIsWLI7ZJliD/+LASffMnWGBdB7CYTF0/tv+wbQacXQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEJQpYDRw6wDN0DFD2TfMXlotvG2nRWUCsR08Cknx8POGd7SHqrQm4mXsgXfWG5aJ8w==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
                             UserName = "moderator@gmail.com"
@@ -1483,13 +1244,13 @@ namespace Furniking.DAL.Data.Migrations
                         {
                             Id = 3,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "6bceb58e-71e1-407f-9488-f9442de38ba9",
+                            ConcurrencyStamp = "f0f8c806-61be-474a-84d5-9a241eb02cfb",
                             Email = "admin@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEEwet+opf8YtQYfS/kdFjmRAIaRwapGqdKvxY0OqUVRrXj6qaMUfzr9tNIUtO7wYOA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEDOSM01nsK/lzdlCNusop15wuaNEMqiwhVI0HEF/Pil67OgMe4eD3ouRPeulfi5IeA==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
                             UserName = "admin@gmail.com"
