@@ -28,6 +28,8 @@ namespace Furniking.BLL.Services.Implementations
 
         public async Task<TokenDTO> LoginAsync(AuthenticationDTO dto)
         {
+            ArgumentNullException.ThrowIfNull(dto);
+
             var user = await _userManager.FindByEmailAsync(dto.Email);
             if (user == null)
                 throw new LoginFailedException();
@@ -42,11 +44,13 @@ namespace Furniking.BLL.Services.Implementations
 
         public async Task<TokenDTO> RegistrationAsync(AuthenticationDTO dto)
         {
+            ArgumentNullException.ThrowIfNull(dto);
+
             var user = _mapper.Map<User>(dto);
 
             var result = await _userManager.CreateAsync(user, dto.Password);
             if (result.Succeeded == false)
-                throw new RegistrationFailedException(String.Join(", ", result.Errors.Select(e => e.Code)) ?? "RegistrationError");
+                throw new RegistrationFailedException(result.Errors.ToDictionary(k => k.Code, v => v.Description));
 
             await _userManager.AddToRoleAsync(user,
                 _configuration["User:DefaultRole"] ?? throw new RoleNotSpecifiedException());

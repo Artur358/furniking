@@ -2,7 +2,7 @@
 {
     public class RegistrationFailedException : ApiException
     {
-        public RegistrationFailedException(string error) : base(403, error)
+        public RegistrationFailedException(Dictionary<string, string> errors) : base(403, "Registration failed", errors)
         { }
     }
 }

@@ -1,15 +1,16 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Furniking.DAL.ValidationConstants.User;
+using System.ComponentModel.DataAnnotations;
 
 namespace Furniking.BLL.DTOs.User
 {
     public class AuthenticationDTO
     {
         [Required]
-        [DataType(DataType.EmailAddress)]
+        [EmailAddress]
         public string Email { get; set; }
         
         [Required]
-        [DataType(DataType.Password)]
+        [MinLength(UserValidationConstants.PasswordRequiredLength)]
         public string Password { get; set; }
     }
 }
