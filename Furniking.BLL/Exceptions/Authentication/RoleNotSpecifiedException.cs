@@ -1,8 +1,8 @@
 ﻿namespace Furniking.BLL.Exceptions.Authentication
 {
-    public class RoleNotSpecifiedException : ApiException
+    public class RoleNotSpecifiedException : Exception
     {
-        public RoleNotSpecifiedException() : base(500, "Role is not specified on the server")
+        public RoleNotSpecifiedException() : base("Role is not specified on the server")
         {
         }
     }

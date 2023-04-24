@@ -5,6 +5,7 @@ using Furniking.BLL.Services.Implementations;
 using Furniking.BLL.Services.Interfaces;
 using Furniking.DAL.Data;
 using Furniking.DAL.Entities;
+using Furniking.DAL.ValidationConstants.User;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
@@ -18,12 +19,18 @@ namespace Furniking.Extensions.Services
         {
             services.AddIdentity<User, IdentityRole<int>>(options =>
             {
-                options.Password.RequireDigit = bool.Parse(configuration["User:Validation:Password:RequireDigit"]);
-                options.Password.RequireLowercase = bool.Parse(configuration["User:Validation:Password:RequireLowercase"]);
-                options.Password.RequireNonAlphanumeric = bool.Parse(configuration["User:Validation:Password:RequireNonAlphanumeric"]);
-                options.Password.RequireUppercase = bool.Parse(configuration["User:Validation:Password:RequireUppercase"]);
-                options.Password.RequiredLength = int.Parse(configuration["User:Validation:Password:RequiredLength"]);
-                options.Password.RequiredUniqueChars = int.Parse(configuration["User:Validation:Password:RequiredUniqueChars"]);
+                options.User.RequireUniqueEmail = true;
+                options.User.AllowedUserNameCharacters = null;
+
+                options.Lockout.MaxFailedAccessAttempts = UserValidationConstants.MaxFailedAccessAttempts;
+                options.Lockout.DefaultLockoutTimeSpan = UserValidationConstants.DefaultLockoutTimeSpan;
+
+                options.Password.RequiredLength = UserValidationConstants.PasswordRequiredLength;
+                options.Password.RequiredUniqueChars = 0;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireDigit = false;
             })
             .AddEntityFrameworkStores<DataContext>()
             .AddDefaultTokenProviders();
