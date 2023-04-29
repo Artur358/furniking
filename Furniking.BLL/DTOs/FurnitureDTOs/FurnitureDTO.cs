@@ -15,7 +15,9 @@ namespace Furniking.BLL.DTOs.FurnitureDTOs
         public decimal Price { get; set; }
         public CategoryInfoDTO Category { get; set; }
 
-        public ICollection<int> ImagesId { get; set; }
+        public int MainImageId { get; set; }
+
+        public ICollection<int> Galery { get; set; }
         public ICollection<int> ReviewsId { get; set; }
 
     }

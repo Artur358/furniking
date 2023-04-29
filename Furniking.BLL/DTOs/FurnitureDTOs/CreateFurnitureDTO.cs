@@ -1,4 +1,5 @@
 ﻿using Furniking.BLL.DTOs.CategoryDTOs;
+using Furniking.BLL.DTOs.ImageDTOs;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -17,10 +18,18 @@ namespace Furniking.BLL.DTOs.FurnitureDTOs
         public int CategoryId { get; set; }
 
 
-        [DataType(dataType: DataType.Upload)]
+        //[DataType(dataType: DataType.Upload)]
+        //public IFormFile MainImage { get; set; }
+
+        //[DataType(dataType: DataType.Upload)]
         //public ICollection<IFormFile> Images { get; set; }
-        public IFormFileCollection formFiles { get; set; }
+        //public IFormFileCollection formFiles { get; set; }
         
+        public ImageDTO MainImage { get; set; }
+
+        public IList<ImageDTO> Galery { get; set;}
+
+
 
     }
 }

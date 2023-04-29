@@ -38,15 +38,14 @@ namespace Furniking.BLL.Services.Implementations
             if (image.Data.Length < 0)
                 throw new Exception("Image data is null");
 
-            var imageId = dataContext.Images.Add(_mapper.Map<Image>(image)).Entity.Id;
+            var imageEntity = dataContext.Images.Add(_mapper.Map<Image>(image)).Entity;
             dataContext.SaveChanges();
-
-            return imageId;
+            return imageEntity.Id;
         }
 
-        public IEnumerable<int> Upload(ICollection<ImageDTO> images)
+        public IEnumerable<int> Upload(IEnumerable<ImageDTO> images)
         {
-            var ids = new List<int>(images.Count);
+            var ids = new List<int>(images.Count());
 
             foreach (var image in images)
             {

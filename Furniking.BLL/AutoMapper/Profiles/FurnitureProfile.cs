@@ -16,8 +16,8 @@ namespace Furniking.BLL.AutoMapper.Profiles
         {
             CreateMap<Furniture, FurnitureDTO>()
                 .ForMember(
-                    dest => dest.ImagesId,
-                    opt => opt.MapFrom(f => f.Images.Select(i => i.Id))
+                    dest => dest.Galery,
+                    opt => opt.MapFrom(f => f.Galery.Select(i => i.Id))
                 )
                 .ForMember(
                     dest => dest.ReviewsId,

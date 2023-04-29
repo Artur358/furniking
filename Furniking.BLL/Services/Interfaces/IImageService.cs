@@ -11,7 +11,7 @@ namespace Furniking.BLL.Services.Interfaces
     {
         Task<ImageDTO> Get(int id);
         int Upload(ImageDTO image);
-        IEnumerable<int> Upload(ICollection<ImageDTO> images);
+        IEnumerable<int> Upload(IEnumerable<ImageDTO> images);
 
     }
 }
