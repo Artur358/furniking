@@ -4,6 +4,7 @@ using Furniking.DAL.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Furniking.DAL.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230430000143_added galery")]
+    partial class addedgalery
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -85,15 +88,10 @@ namespace Furniking.DAL.Data.Migrations
                     b.Property<int>("FurnitureId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ImageId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("FurnitureId")
                         .IsUnique();
-
-                    b.HasIndex("ImageId");
 
                     b.ToTable("Galeries");
                 });
@@ -114,11 +112,16 @@ namespace Furniking.DAL.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("FurnitureGaleryId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("FurnitureGaleryId");
 
                     b.ToTable("Images");
                 });
@@ -405,15 +408,14 @@ namespace Furniking.DAL.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Furniking.DAL.Entities.Image", "Image")
-                        .WithMany()
-                        .HasForeignKey("ImageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Furniture");
+                });
 
-                    b.Navigation("Image");
+            modelBuilder.Entity("Furniking.DAL.Entities.Image", b =>
+                {
+                    b.HasOne("Furniking.DAL.Entities.FurnitureGalery", null)
+                        .WithMany("Images")
+                        .HasForeignKey("FurnitureGaleryId");
                 });
 
             modelBuilder.Entity("Furniking.DAL.Entities.Order", b =>
@@ -516,6 +518,11 @@ namespace Furniking.DAL.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Reviews");
+                });
+
+            modelBuilder.Entity("Furniking.DAL.Entities.FurnitureGalery", b =>
+                {
+                    b.Navigation("Images");
                 });
 
             modelBuilder.Entity("Furniking.DAL.Entities.User", b =>

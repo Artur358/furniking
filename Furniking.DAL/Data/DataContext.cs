@@ -18,7 +18,7 @@ namespace Furniking.DAL.Data
             
         }
 
-        
+        public DbSet<FurnitureGalery> Galeries { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<Furniture> Furnitures { get; set; }
