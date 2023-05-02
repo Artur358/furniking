@@ -1,4 +1,4 @@
-﻿namespace Furniking.BLL.Exceptions.Authentication
+﻿namespace Furniking.BLL.Exceptions.User
 {
     public class LoginFailedException : ApiException
     {

@@ -1,4 +1,4 @@
-﻿namespace Furniking.BLL.DTOs.User
+﻿namespace Furniking.BLL.DTOs.UserDTOs
 {
     public class UserDTO
     {

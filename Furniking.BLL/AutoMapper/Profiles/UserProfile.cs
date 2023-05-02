@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Furniking.BLL.AutoMapper.Converters.UserConverters;
-using Furniking.BLL.DTOs.User;
+using Furniking.BLL.DTOs.UserDTOs;
 using Furniking.DAL.Entities;
 using System.IdentityModel.Tokens.Jwt;
 

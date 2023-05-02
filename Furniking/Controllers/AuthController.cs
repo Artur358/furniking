@@ -1,4 +1,4 @@
-﻿using Furniking.BLL.DTOs.User;
+﻿using Furniking.BLL.DTOs.UserDTOs;
 using Furniking.BLL.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -13,11 +13,13 @@ namespace Furniking.Controllers
     {
         private readonly IUserService _userService;
         private readonly IAuthenticationService _authenticationService;
+        private readonly IEmailService _emailService;
 
-        public AuthController(IUserService userService, IAuthenticationService authenticationService)
+        public AuthController(IUserService userService, IAuthenticationService authenticationService, IEmailService emailService)
         {
             _userService = userService;
             _authenticationService = authenticationService;
+            _emailService = emailService;
         }
 
         [HttpPost("Login")]
@@ -34,7 +36,8 @@ namespace Furniking.Controllers
         [SwaggerResponse(500, Description = "Role is not specified on the server!")]
         public async Task<IActionResult> Registration([FromBody] AuthenticationDTO dto)
         {
-            return Ok(await _authenticationService.RegistrationAsync(dto));
+            await _authenticationService.RegistrationAsync(dto);
+            return Ok();
         }
 
         [Authorize]
@@ -45,6 +48,20 @@ namespace Furniking.Controllers
         {
             var userId = int.Parse(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
             return Ok(await _userService.GetByIdAsync(userId));
+        }
+
+        [HttpPost("SendMailToConfirmEmail")]
+        public async Task<IActionResult> SendMail(string email)
+        {
+            await _authenticationService.SendMailForConfirmEmailAsync(email);
+            return Ok();
+        }
+
+        [HttpPost("ConfirmEmail")]
+        public async Task<IActionResult> ConfirmEmail(string email, string token)
+        {
+            await _authenticationService.ConfirmEmailAsync(email, token);
+            return Ok();
         }
     }
 }
