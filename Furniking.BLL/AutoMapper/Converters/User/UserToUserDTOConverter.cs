@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Furniking.BLL.DTOs.User;
+using Furniking.BLL.DTOs.UserDTOs;
 using Furniking.DAL.Entities;
 using Microsoft.AspNetCore.Identity;
 

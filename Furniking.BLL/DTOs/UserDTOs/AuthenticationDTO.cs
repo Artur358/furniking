@@ -1,7 +1,7 @@
 ﻿using Furniking.DAL.ValidationConstants.User;
 using System.ComponentModel.DataAnnotations;
 
-namespace Furniking.BLL.DTOs.User
+namespace Furniking.BLL.DTOs.UserDTOs
 {
     public class AuthenticationDTO
     {

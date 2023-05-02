@@ -1,8 +1,5 @@
 ﻿using Furniking.BLL.AutoMapper.Profiles;
-using Furniking.BLL.Factories.Implementations;
-using Furniking.BLL.Factories.Interfaces;
-using Furniking.BLL.Services.Implementations;
-using Furniking.BLL.Services.Interfaces;
+using Furniking.BLL.TokenProviders;
 using Furniking.DAL.Data;
 using Furniking.DAL.Entities;
 using Furniking.DAL.ValidationConstants.User;
@@ -13,9 +10,9 @@ using System.Text;
 
 namespace Furniking.Extensions.Services
 {
-    public static class AuthenticationServiceExtensions
+    public static class AuthenticationExtensions
     {
-        public static void AddUserServices(this IServiceCollection services, IConfiguration configuration)
+        public static void AddConfiguratedAuthentication(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddIdentity<User, IdentityRole<int>>(options =>
             {
@@ -31,6 +28,8 @@ namespace Furniking.Extensions.Services
                 options.Password.RequireUppercase = false;
                 options.Password.RequireLowercase = false;
                 options.Password.RequireDigit = false;
+
+                options.Tokens.EmailConfirmationTokenProvider = TokenOptions.DefaultEmailProvider;
             })
             .AddEntityFrameworkStores<DataContext>()
             .AddDefaultTokenProviders();
@@ -57,9 +56,6 @@ namespace Furniking.Extensions.Services
             });
 
             services.AddAutoMapper(typeof(UserProfile));
-            services.AddTransient<IUserService, UserService>();
-            services.AddTransient<IAuthenticationService, AuthenticationService>();
-            services.AddTransient<IJwtFactory, JwtFactory>();
         }
     }
 }
