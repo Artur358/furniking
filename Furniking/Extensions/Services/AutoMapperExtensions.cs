@@ -9,6 +9,7 @@ namespace Furniking.Extensions.Services
             services.AddAutoMapper(typeof(UserProfile));
             services.AddAutoMapper(typeof(CategoryProfile));
             services.AddAutoMapper(typeof(FurnitureProfile));
+            services.AddAutoMapper(typeof(OtherProfile));
         }
     }
 }

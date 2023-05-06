@@ -11,7 +11,7 @@ namespace Furniking.Extensions.Services
         {
             services.AddTransient<ICategoryRepository, CategoryRepository>();
             services.AddTransient<IFurnitureRepository, FurnitureRepository>();
-            services.AddTransient<IUserTokenRepository, UserTokenRepository>();
+            //services.AddTransient<IUserTokenRepository, UserTokenRepository>();
         }
 
         public static void AddDataContext(this IServiceCollection services, IConfiguration configuration)
