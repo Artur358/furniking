@@ -5,7 +5,6 @@ using Furniking.BLL.DTOs.ImageDTOs;
 using Furniking.BLL.Exceptions;
 using Furniking.BLL.Services.Interfaces;
 using Furniking.DAL.Data;
-using Furniking.DAL.Data.Helpers;
 using Furniking.DAL.Entities;
 using Furniking.DAL.Repositories.Interfaces;
 using Furniking.Models;

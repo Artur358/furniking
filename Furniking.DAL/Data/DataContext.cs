@@ -1,24 +1,33 @@
-﻿using Furniking.DAL.Entities;
+﻿using Furniking.DAL.Data.Extensions.ModelBuilderExtensions;
+using Furniking.DAL.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 
 namespace Furniking.DAL.Data
 {
     public class DataContext : IdentityDbContext<User, IdentityRole<int>, int>
     {
-        public DataContext(DbContextOptions<DataContext> options) 
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<Furniture> Furnitures { get; set; }
+        public DbSet<Review> Reviews { get; set; }
+        public DbSet<Image> Images { get; set; }
+
+        private readonly IConfiguration _configuration;
+
+        public DataContext(DbContextOptions<DataContext> options, IConfiguration configuration) 
             :base(options) 
-        { 
-            
+        {
+            _configuration = configuration;
         }
 
-        public DbSet<FurnitureGalery> Galeries { get; set; }
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+
+        
         public DbSet<Category> Categories { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<Furniture> Furnitures { get; set; }

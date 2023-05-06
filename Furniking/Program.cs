@@ -1,14 +1,5 @@
-using Furniking.BLL.AutoMapper.Profiles;
-using Furniking.BLL.Services.Implementations;
-using Furniking.BLL.Services.Interfaces;
-using Furniking.DAL.Data;
-using Furniking.DAL.Data.Helpers;
-using Furniking.DAL.Repositories.Implementations;
-using Furniking.DAL.Repositories.Interfaces;
-
-using Furniking.Extensions;
 using Furniking.Extensions.Middlewares;
-using Microsoft.EntityFrameworkCore;
+using Furniking.Extensions.Services;
 
 namespace Furniking
 {
@@ -18,51 +9,40 @@ namespace Furniking
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            // DAL
+            builder.Services.AddDataContext(builder.Configuration);
+            builder.Services.AddRepositories(); // TODO: Use IUnitOfWork
 
-            builder.Services.AddDbContext<DataContext>(op =>
-            {
-                op
-                .UseLazyLoadingProxies()
-                .UseSqlServer(builder.Configuration.GetConnectionString("devDB"));
-            });
+            // BLL
+            builder.Services.AddConfiguratedAuthentication(builder.Configuration);
+            builder.Services.AddServices();
+            builder.Services.AddConfigurationOptions(builder.Configuration);
+            builder.Services.AddAutoMapperProfiles();
 
-            
-            // TODO: Use IUnitOfWork
-            builder.Services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
-            builder.Services.AddTransient<ICategoryRepository, CategoryRepository>();
-            builder.Services.AddTransient<IFurnitureRepository, FurnitureRepository>();
-
-            // Services
-            builder.Services.ServicesRegister();
-
-            // AutoMapper
-            builder.Services.AutoMapperProfilesRegister();
-
-            // Add services to the container.
+            // Web
             builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            builder.Services.AddConfiguratedSwagger();
 
             var app = builder.Build();
-
-            app.UseCustomExceptionHandler();
-
             // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
+
+            if (app.Environment.IsProduction())
             {
-                app.UseSwagger();
-                app.UseSwaggerUI();
+                app.UseCustomExceptionHandler();
             }
 
-            app.UseHttpsRedirection();
+            app.UseSwagger();
+            app.UseSwaggerUI();
 
+            //app.UseHttpsRedirection();
+
+            app.UseAuthentication();
             app.UseAuthorization();
-
 
             app.MapControllers();
 
             app.Run();
         }
     }
-}
+}                                                
