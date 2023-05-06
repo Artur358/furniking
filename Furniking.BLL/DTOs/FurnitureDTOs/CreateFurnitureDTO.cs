@@ -17,17 +17,11 @@ namespace Furniking.BLL.DTOs.FurnitureDTOs
         public decimal Price { get; set; }
         public int CategoryId { get; set; }
 
-
-        //[DataType(dataType: DataType.Upload)]
-        //public IFormFile MainImage { get; set; }
-
-        //[DataType(dataType: DataType.Upload)]
-        //public ICollection<IFormFile> Images { get; set; }
-        //public IFormFileCollection formFiles { get; set; }
         
         public ImageDTO MainImage { get; set; }
 
-        public IList<ImageDTO> Galery { get; set;}
+        
+        public IList<ImageDTO>? Galery { get; set;}
 
 
 

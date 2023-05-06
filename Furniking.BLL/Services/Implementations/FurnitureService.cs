@@ -41,55 +41,7 @@ namespace Furniking.BLL.Services.Implementations
             if(await _categoryRepository.GetByIdAsync(furniture.CategoryId) == null)
                 throw new Exception("Incorrect categoryId");
 
-
-
             var m = _mapper.Map<Furniture>(furniture);
-
-            
-            
-
-            //_imageService.Upload(furniture.Galery);
-            //m.MainImageId = 
-            //_imageService.Upload(furniture.MainImage);
-
-            //m.Images = new List<Image>();
-
-            //foreach (var item in furniture.formFiles)
-            //{
-            //    using MemoryStream memoryStream = new MemoryStream();
-            //    await item.CopyToAsync(memoryStream);
-            //    var buffer = memoryStream.GetBuffer();
-
-            //    var image = new ImageDTO()
-            //    {
-            //        Data = buffer,
-            //        Name = item.Name,
-            //        Extension = Path.GetExtension(item.FileName),
-            //    };
-            //}
-
-
-
-
-            //var tasks = furniture.formFiles.Select(async (f) =>
-            //{
-            //    using MemoryStream memoryStream = new MemoryStream();
-            //    await f.CopyToAsync(memoryStream);
-            //    var buffer = memoryStream.GetBuffer();
-
-            //    return new ImageDTO()
-            //    {
-            //        Data = buffer,
-            //        Name = f.Name,
-            //        Extension = Path.GetExtension(f.FileName),
-            //    };
-            //});
-
-
-
-            //m.Images = _imageService.Upload(await Task.WhenAll(tasks)).Select(imgId => new )
-
-            //var createdFurniture = await _furnitureRepository.AddAsync(m, f => f.Category, f => f.MainImageId);
 
 
             var createdFurniture = await _furnitureRepository.AddAsync(m);

@@ -27,8 +27,39 @@ namespace Furniking.BLL.AutoMapper.Profiles
             //    .ReverseMap();
 
 
-            CreateMap<Furniture, CreateFurnitureDTO>().ReverseMap();
-                
+            CreateMap<Furniture, FurnitureDTO>()
+                .ForMember(
+                    dest => dest.Galery,
+                    opt => opt.MapFrom(f => f.Galery.Select( g => g.ImageId ))
+                )
+                .ForMember(
+                    dest => dest.ReviewsId,
+                    opt => opt.MapFrom(f => f.Reviews.Select(r => r.Id))
+                )
+                .ForMember(dest => dest.Category, opt => opt.MapFrom(src => src.Category))
+                .ReverseMap();
+
+
+
+            // проверить
+            CreateMap<CreateFurnitureDTO, Furniture>()
+                .ForMember(
+                    dest => dest.Galery,
+                    opt => opt.MapFrom(s => s.Galery
+                        .Select( i => new FurnitureGalery
+                        {
+                            Image = new Image
+                            {
+                                Data = i.Data,
+                                Extension = i.Extension,
+                                Name= i.Name,
+                            }
+                        }))
+                );
+
+
+
+
         }
     }
 }

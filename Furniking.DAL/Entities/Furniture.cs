@@ -1,6 +1,4 @@
 ﻿
-
-
 using System.ComponentModel.DataAnnotations;
 
 namespace Furniking.DAL.Entities
@@ -14,8 +12,8 @@ namespace Furniking.DAL.Entities
         public virtual Category Category { get; set; }
 
         [Required]
-        public int MainImageId { get; set; } 
-        public virtual FurnitureGalery Galery { get; set; }
+        public virtual Image MainImage { get; set; }
+        public virtual ICollection<FurnitureGalery> Galery { get; set; }
 
         public virtual ICollection<Review> Reviews { get; set; }
 

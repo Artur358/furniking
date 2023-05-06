@@ -11,7 +11,6 @@ namespace Furniking.DAL.Entities
         public int FurnitureId { get; set; }
         public virtual Furniture Furniture { get; set; }
 
-        //public virtual ICollection<Image> Images { get; set; }
         public int ImageId { get; set; }
         public virtual Image Image { get; set; }
 

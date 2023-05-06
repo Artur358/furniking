@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Furniking.DAL.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230430001151_edit galery")]
-    partial class editgalery
+    [Migration("20230506063415_edit furniture")]
+    partial class editfurniture
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -74,6 +74,8 @@ namespace Furniking.DAL.Data.Migrations
 
                     b.HasIndex("CategoryId");
 
+                    b.HasIndex("MainImageId");
+
                     b.ToTable("Furnitures");
                 });
 
@@ -93,8 +95,7 @@ namespace Furniking.DAL.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("FurnitureId")
-                        .IsUnique();
+                    b.HasIndex("FurnitureId");
 
                     b.HasIndex("ImageId");
 
@@ -397,14 +398,22 @@ namespace Furniking.DAL.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Furniking.DAL.Entities.Image", "MainImage")
+                        .WithMany()
+                        .HasForeignKey("MainImageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Category");
+
+                    b.Navigation("MainImage");
                 });
 
             modelBuilder.Entity("Furniking.DAL.Entities.FurnitureGalery", b =>
                 {
                     b.HasOne("Furniking.DAL.Entities.Furniture", "Furniture")
-                        .WithOne("Galery")
-                        .HasForeignKey("Furniking.DAL.Entities.FurnitureGalery", "FurnitureId")
+                        .WithMany("Galery")
+                        .HasForeignKey("FurnitureId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -515,8 +524,7 @@ namespace Furniking.DAL.Data.Migrations
 
             modelBuilder.Entity("Furniking.DAL.Entities.Furniture", b =>
                 {
-                    b.Navigation("Galery")
-                        .IsRequired();
+                    b.Navigation("Galery");
 
                     b.Navigation("Reviews");
                 });

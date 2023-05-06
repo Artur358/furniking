@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Client;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Furniking.Controllers
 {
@@ -40,14 +41,8 @@ namespace Furniking.Controllers
 
             if (!validateFileExtension(furniture.MainImage.FileName))
                 throw new ApiException(400, "Extension incorrect");
-            
-            foreach (var file in furniture.formFiles)
-            {
-                if (!validateFileExtension(file.FileName))
-                    throw new ApiException(400, "Extension incorrect");
-            }
 
-            var tasks = furniture.formFiles.Select(async (f) => await getImage(f) );
+         
 
             var fdto = new CreateFurnitureDTO
             {
@@ -55,7 +50,8 @@ namespace Furniking.Controllers
                 Description = furniture.Description,
                 Name = furniture.Name,
                 Price = furniture.Price,
-                Galery = await Task.WhenAll(tasks),
+                Galery = furniture.formFiles.IsNullOrEmpty() ? null :
+                    await Task.WhenAll(furniture.formFiles.Select(async (f) => await getImage(f))),
                 MainImage = await getImage(furniture.MainImage)
             };
 

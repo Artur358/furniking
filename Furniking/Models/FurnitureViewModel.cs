@@ -15,7 +15,8 @@ namespace Furniking.Models
 
         [DataType(dataType: DataType.Upload)]
         //public ICollection<IFormFile> Images { get; set; }
-        public IFormFileCollection formFiles { get; set; }
+        [FileExtensions(Extensions = "jpg,jpeg,png")]
+        public IFormFileCollection? formFiles { get; set; }
 
         //[DataType(dataType: DataType.Upload)]
         //public byte[] Data { get; set; }

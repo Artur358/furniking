@@ -5,7 +5,7 @@
 namespace Furniking.DAL.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class editgalery : Migration
+    public partial class editfurniture : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -17,6 +17,10 @@ namespace Furniking.DAL.Data.Migrations
             migrationBuilder.DropIndex(
                 name: "IX_Images_FurnitureGaleryId",
                 table: "Images");
+
+            migrationBuilder.DropIndex(
+                name: "IX_Galeries_FurnitureId",
+                table: "Galeries");
 
             migrationBuilder.DropColumn(
                 name: "FurnitureGaleryId",
@@ -30,9 +34,27 @@ namespace Furniking.DAL.Data.Migrations
                 defaultValue: 0);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Galeries_FurnitureId",
+                table: "Galeries",
+                column: "FurnitureId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Galeries_ImageId",
                 table: "Galeries",
                 column: "ImageId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Furnitures_MainImageId",
+                table: "Furnitures",
+                column: "MainImageId");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Furnitures_Images_MainImageId",
+                table: "Furnitures",
+                column: "MainImageId",
+                principalTable: "Images",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Galeries_Images_ImageId",
@@ -40,19 +62,31 @@ namespace Furniking.DAL.Data.Migrations
                 column: "ImageId",
                 principalTable: "Images",
                 principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+                onDelete: ReferentialAction.NoAction);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
+                name: "FK_Furnitures_Images_MainImageId",
+                table: "Furnitures");
+
+            migrationBuilder.DropForeignKey(
                 name: "FK_Galeries_Images_ImageId",
+                table: "Galeries");
+
+            migrationBuilder.DropIndex(
+                name: "IX_Galeries_FurnitureId",
                 table: "Galeries");
 
             migrationBuilder.DropIndex(
                 name: "IX_Galeries_ImageId",
                 table: "Galeries");
+
+            migrationBuilder.DropIndex(
+                name: "IX_Furnitures_MainImageId",
+                table: "Furnitures");
 
             migrationBuilder.DropColumn(
                 name: "ImageId",
@@ -68,6 +102,12 @@ namespace Furniking.DAL.Data.Migrations
                 name: "IX_Images_FurnitureGaleryId",
                 table: "Images",
                 column: "FurnitureGaleryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Galeries_FurnitureId",
+                table: "Galeries",
+                column: "FurnitureId",
+                unique: true);
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Images_Galeries_FurnitureGaleryId",

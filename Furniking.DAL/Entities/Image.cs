@@ -13,6 +13,5 @@ namespace Furniking.DAL.Entities
         public string Extension { get; set; }
         public byte[] Data { get; set; }
 
-        //public virtual Furniture Furniture { get; set; }
     }
 }
