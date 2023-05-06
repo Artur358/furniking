@@ -13,6 +13,7 @@ namespace Furniking.Extensions.Services
             services.addEmailServices();
             services.addCategoryServices();
             services.addFurnitureServices();
+            services.addImageServices();
         }
 
         private static void addUserServices(this IServiceCollection services)
@@ -35,6 +36,11 @@ namespace Furniking.Extensions.Services
         private static void addFurnitureServices(this IServiceCollection services)
         {
             services.AddTransient<IFurnitureService, FurnitureService>();
+        }
+
+        private static void addImageServices(this IServiceCollection services)
+        {
+            services.AddTransient<IImageService, ImageService>();
         }
     }
 }

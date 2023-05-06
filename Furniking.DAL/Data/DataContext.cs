@@ -26,12 +26,7 @@ namespace Furniking.DAL.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-
+        }
         
-        public DbSet<Category> Categories { get; set; }
-        public DbSet<Order> Orders { get; set; }
-        public DbSet<Furniture> Furnitures { get; set; }
-        public DbSet<Review> Reviews { get; set; }
-        public DbSet<Image> Images { get; set; }
     }
 }

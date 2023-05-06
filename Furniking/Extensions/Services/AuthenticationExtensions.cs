@@ -1,5 +1,4 @@
 ﻿using Furniking.BLL.AutoMapper.Profiles;
-using Furniking.BLL.TokenProviders;
 using Furniking.DAL.Data;
 using Furniking.DAL.Entities;
 using Furniking.DAL.ValidationConstants.User;
