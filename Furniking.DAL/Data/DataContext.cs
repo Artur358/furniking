@@ -27,10 +27,11 @@ namespace Furniking.DAL.Data
         {
             base.OnModelCreating(builder);
 
-            builder.LoadRoles(_configuration.GetRequiredSection("User:Roles").GetChildren().Select(s => s.Value));
-
-            if (bool.Parse(_configuration["DB:UseFakeDatas"]) == true)
-                builder.LoadFakeDatas();
-        }
+        
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<Furniture> Furnitures { get; set; }
+        public DbSet<Review> Reviews { get; set; }
+        public DbSet<Image> Images { get; set; }
     }
 }

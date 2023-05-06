@@ -1,13 +1,18 @@
 ﻿using AutoMapper;
 using Furniking.BLL.DTOs.CategoryDTOs;
 using Furniking.BLL.DTOs.FurnitureDTOs;
+using Furniking.BLL.DTOs.ImageDTOs;
+using Furniking.BLL.Exceptions;
 using Furniking.BLL.Services.Interfaces;
 using Furniking.DAL.Data;
 using Furniking.DAL.Entities;
 using Furniking.DAL.Repositories.Interfaces;
+using Furniking.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Identity.Client;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Furniking.Controllers
 {
@@ -16,24 +21,58 @@ namespace Furniking.Controllers
     public class FurnitureController : ControllerBase
     {
         private readonly IFurnitureService _furnitureService;
-        private readonly IFurnitureRepository furnitureRepository;
-        private readonly IMapper _mapper;
+        private readonly IImageService _imageService;
+        
 
 
-        public FurnitureController(IFurnitureService furnitureService, IFurnitureRepository furnitureRepository, IMapper mapper = null)
+        public FurnitureController(IFurnitureService furnitureService, IImageService imageService)
         {
             this._furnitureService = furnitureService;
-            this.furnitureRepository = furnitureRepository;
-            _mapper = mapper;
+            _imageService = imageService;
         }
 
 
         [HttpPost("Create")]
-        public async Task<IActionResult> Create(CreateFurnitureDTO furniture)
+        public async Task<IActionResult> Create([FromForm] FurnitureViewModel furniture)
         {
-            var createdFurniture = await _furnitureService.CreateAsync(furniture);
+            if (furniture.MainImage == null || furniture.MainImage.Length <= 0)
+                throw new ApiException(400, "Main image is null or empty");
+
+            if (!validateFileExtension(furniture.MainImage.FileName))
+                throw new ApiException(400, "Extension incorrect");
+
+         
+
+            var fdto = new CreateFurnitureDTO
+            {
+                CategoryId = furniture.CategoryId,
+                Description = furniture.Description,
+                Name = furniture.Name,
+                Price = furniture.Price,
+                Galery = furniture.formFiles.IsNullOrEmpty() ? null :
+                    await Task.WhenAll(furniture.formFiles.Select(async (f) => await getImage(f))),
+                MainImage = await getImage(furniture.MainImage)
+            };
+
+            var createdFurniture = await _furnitureService.CreateAsync(fdto);
             return Ok(createdFurniture);
         }
+
+
+        private async Task<ImageDTO> getImage(IFormFile f)
+        {
+            using MemoryStream memoryStream = new MemoryStream();
+            await f.CopyToAsync(memoryStream);
+            var buffer = memoryStream.GetBuffer();
+
+            return new ImageDTO()
+            {
+                Data = buffer,
+                Name = f.Name,
+                Extension = Path.GetExtension(f.FileName),
+            };
+        }
+
 
         [HttpGet("Get")]
         public async Task<IActionResult> Get(int id)
@@ -67,8 +106,17 @@ namespace Furniking.Controllers
             return Ok(await _furnitureService.GetPageAsync(page));
         }
 
-
+        [HttpGet]
+        public IActionResult Image(int id)
+        {
+            return Ok(_imageService.Get(id));
+        }
      
+        
 
+        private bool validateFileExtension(string fileName)
+        {
+            return (new[] { ".jpg", ".png" }).Contains(Path.GetExtension(fileName));       
+        }
     }
 }

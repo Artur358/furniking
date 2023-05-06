@@ -89,6 +89,9 @@ namespace Furniking.DAL.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("MainImageId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -99,6 +102,8 @@ namespace Furniking.DAL.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
+
+                    b.HasIndex("MainImageId");
 
                     b.ToTable("Furnitures");
 
@@ -505,6 +510,29 @@ namespace Furniking.DAL.Data.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Furniking.DAL.Entities.FurnitureGalery", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("FurnitureId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ImageId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FurnitureId");
+
+                    b.HasIndex("ImageId");
+
+                    b.ToTable("Galeries");
+                });
+
             modelBuilder.Entity("Furniking.DAL.Entities.Image", b =>
                 {
                     b.Property<int>("Id")
@@ -521,16 +549,11 @@ namespace Furniking.DAL.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("FurnitureId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("FurnitureId");
 
                     b.ToTable("Images");
                 });
@@ -1674,14 +1697,34 @@ namespace Furniking.DAL.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Furniking.DAL.Entities.Image", "MainImage")
+                        .WithMany()
+                        .HasForeignKey("MainImageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Category");
+
+                    b.Navigation("MainImage");
                 });
 
-            modelBuilder.Entity("Furniking.DAL.Entities.Image", b =>
+            modelBuilder.Entity("Furniking.DAL.Entities.FurnitureGalery", b =>
                 {
-                    b.HasOne("Furniking.DAL.Entities.Furniture", null)
-                        .WithMany("Images")
-                        .HasForeignKey("FurnitureId");
+                    b.HasOne("Furniking.DAL.Entities.Furniture", "Furniture")
+                        .WithMany("Galery")
+                        .HasForeignKey("FurnitureId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Furniking.DAL.Entities.Image", "Image")
+                        .WithMany()
+                        .HasForeignKey("ImageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Furniture");
+
+                    b.Navigation("Image");
                 });
 
             modelBuilder.Entity("Furniking.DAL.Entities.Order", b =>
@@ -1780,7 +1823,7 @@ namespace Furniking.DAL.Data.Migrations
 
             modelBuilder.Entity("Furniking.DAL.Entities.Furniture", b =>
                 {
-                    b.Navigation("Images");
+                    b.Navigation("Galery");
 
                     b.Navigation("Reviews");
                 });

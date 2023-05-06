@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Furniking.BLL.DTOs.FurnitureDTOs;
+using Furniking.BLL.DTOs.ImageDTOs;
 using Furniking.BLL.Services.Interfaces;
 using Furniking.DAL.Entities;
 using Furniking.DAL.Repositories.Interfaces;
@@ -19,32 +20,33 @@ namespace Furniking.BLL.Services.Implementations
 
         private readonly IFurnitureRepository _furnitureRepository;
         private readonly ICategoryRepository _categoryRepository;
+        private readonly IImageService _imageService;
 
         private readonly IMapper _mapper;
 
         public FurnitureService(IFurnitureRepository furnitureRepository,
             ICategoryRepository categoryRepository,
-            IMapper mapper)
+            IMapper mapper,
+            IImageService imageService)
         {
             _furnitureRepository = furnitureRepository;
             _categoryRepository = categoryRepository;
             _mapper = mapper;
+            _imageService = imageService;
         }
 
 
         public async Task<FurnitureDTO> CreateAsync(CreateFurnitureDTO furniture)
         {
+            if(await _categoryRepository.GetByIdAsync(furniture.CategoryId) == null)
+                throw new Exception("Incorrect categoryId");
+
             var m = _mapper.Map<Furniture>(furniture);
-            
-            if(await _categoryRepository.GetByIdAsync(m.CategoryId) == null)
-            {
-                throw new Exception();
-            }
 
-            var createdFurniture = await _furnitureRepository.AddAsync(m, f => f.Category);
 
-            var r = await GetAsync(createdFurniture.Id);
-            return r;
+            var createdFurniture = await _furnitureRepository.AddAsync(m);
+            _ = createdFurniture;
+            return _mapper.Map<FurnitureDTO>(createdFurniture);
         }
 
         public async Task<bool> DeleteAsync(int id)
